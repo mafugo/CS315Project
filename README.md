@@ -1,5 +1,5 @@
 This repo is created for CS315 Programming languages project.
-we are group of three:
-Mahmut Furkan Gön
-Omar Hamdash
-Ahmet Arda Ceylan 
+We are group of three:
+-Mahmut Furkan Gön https://github.com/mafugo
+-Omar Hamdash https://github.com/O-Hamdash
+-Ahmet Arda Ceylan https://github.com/ardaceylan
