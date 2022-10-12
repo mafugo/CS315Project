@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- saved from url=(0059)http://www.cs.bilkent.edu.tr/~guvenir/courses/CS315/Pr1.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>CS 315: Project 1</title>
+   
+</head>
+<body bgcolor="White" data-new-gr-c-s-check-loaded="14.1083.0" data-gr-ext-installed="">
+
+<p><link rev="MADE" href="mailto:guvenir@cs.bilkent.edu.tr"><!-- OWNER_INFO="H. Altay Guvenir" --></p>
+<h1><b><font color="#000080">CS 315</font><br>
+<font color="Red">Project 1</font></b></h1>
+
+<p>
+</p><hr>
+<b>
+Assigned: Oct. 7, 2022<br>
+<font color="RED">Due: Oct. 14, 2022, 23:59</font>
+</b>
+
+<h2><font color="Blue">A Programming Language for IoT Devices and its Lexical Analyzer</font></h2>
+
+<p>
+This semester's projects are about the design of a new language for the Internet of Things (IoT) edge devices, also called nodes.
+Assume that you are working in the software department of a company that builds IoT devices. 
+The hardware department constructs IoT nodes that has
+</p><ul>
+<li>sensor; eg., temperature, humidity, air pressure, air quality, light, sound level (for a given frequency),
+</li><li>10 switches that can be set as on/off to control some actuators,
+</li><li>a timer that returns the current timestamp, the number of seconds elapsed since midnight Coordinated Universal Time (UTC) of January 1, 1970, not counting leap seconds.
+</li><li>connection to the internet.
+
+<p>Your team is asked to design a special purpose Programming Language to program the IoT nodes produced by the hardware department.
+People who purchase these devices may not be computer engineers; 
+so it is important that the programming language is readable, writable and reliable.
+This newly designed language should be similar to imperative languages, 
+since the users are assumed to have taken a basic programming course in college.
+</p>
+
+<h3>Part A - Language Design (30 points)</h3> 
+
+<p>
+First, you will <b>give a name</b> to your language and design its syntax.
+Note that the best way to hand in your design is its grammar in BNF form, 
+followed by a description of each of your language components. 
+The following is a list of features that are required in your language:
+
+</p><ul>
+  <li>Primitive functions:&nbsp; read data from each sensor, timestamp from timer.
+  </li><li>Mechanism to define a connection to a given URL
+  </li><li>Mechanisms to send/receive an integer value at a time, from/to a connection .
+  </li><li>Variable names, 
+  </li><li>Assignment operator, arithmetic operators,
+  </li><li>Expressions, 
+  </li><li>Conditional statements; e.g., if-then, if-then-else,
+  </li><li>Loops; e.g., for, while, 
+  </li><li>Mechanisms for defining and calling functions, 
+  </li><li>Comments. </li>
+</ul>
+
+<p>You are encouraged to use your imagination to extend the list given above.
+
+</p><p>You will have a chance to do minor revisions on your syntax design for Project 2, later in the semester. 
+Language designs are almost never exactly right in the first iteration.
+Just try your best to make it as readable/writable/reliable as you
+can and keep your eyes open for what does and what does not work :)
+
+</p><h3>Part B - Lexical Analysis (40 points)</h3>
+
+<p>In the second part of this project, you will design and implement a lexical analyzer for your language, 
+using the lex tool available on all Unix style systems. 
+Your scanner should read its input stream and output a sequence of tokens corresponding to 
+the lexemes you will define in your language. 
+Since at this stage you will not be able to connect the output to a parser, 
+your scanner will print the names of the tokens on the screen. 
+For instance, if we were designing a C like syntax, for the input
+</p><p><code>if ( time_now &lt;= 1573821000 ) { ...</code>
+</p><p>the lexical analyzer should produce the output
+</p><p>IF LP IDENTIFIER LESS_EQ NUMBER RP LBRACE ...
+
+</p><h3>Part C - Example Programs (30 points)</h3>
+
+<p>Finally, you will prepare test programs of your choice that
+exercise all of the features in your language, including
+the ones that you may have defined in addition to the required list given
+above. Be creative, have some fun. 
+Make sure your lex implementation correctly identifies all the tokens.
+The TA will test your lexical analyzer with these example programs 
+along with different programs written in your language. 
+
+</p><p>You are not required to write an interpreter or compiler for this language. 
+Just write a few programs in the language you designed and make sure 
+that the lexical analyzer produces the right sequence of tokens.
+
+</p><h3>Teams</h3>
+
+The project will be implemented in teams of two or three students. 
+The members of the teams will be the same for this and the next project, 
+in which you will write a parser for your programming language.
+Note that all members of a team will get the same grade in this part. 
+We will assume each member has contributed the project equally.
+
+<h3>Submission</h3>
+<ul>
+<li>There are several parts that you will hand in.
+<ol>
+  <li>A project report including the following components:
+  <ul>
+    <li>Name, ID and section for all of the project group members.
+    </li><li>The name of your programming language.
+    </li><li>The complete BNF description of your language.
+    </li><li>About one paragraph explanation for each language construct
+    (i.e. variables and terminals) detailing their intended usage and meaning, as
+    well as <b>all of the associated conventions.</b>
+    </li><li>Descriptions of how nontrivial tokens (comments, identifiers, literals, reserved words, etc) 
+    are defined in your language. For all of these, explain what your motivations and
+    constraints were and how they relate to various language criteria
+    such as readability, writability, reliability, etc.
+  </li></ul>
+</li><li>Your lex description file</li>
+<li>The example test program described above, written in your language</li>
+</ol>
+
+</li><li>Make sure your lexical analyzer compiles and runs on <code>dijkstra.cs.bilkent.edu.tr</code>.
+The TA will test your project on the dijkstra machine, 
+and any project that does not compile or run on this machine will get 0 on Part-B.
+</li><li>Your password is the same as the one for your @ug.bilkent.edu.tr e-mail account.
+
+</li><li>Please upload all of the above items to <em>Moodle</em> before the due date. 
+PDF format is preferred for the project reports.</li>
+
+<li>Late submissions will be accepted, with 20 points (out of 100) deduction for each extra day.</li>
+
+</ul>
+
+<h3>Resources</h3>
+<ul>
+  <li><a href="http://www.cs.bilkent.edu.tr/~guvenir/courses/CS315/lex-yacc/linux.html">Running 
+  lex and yacc on Linux systems (accessible in Bilkent Campus)</a> 
+  </li><li><a href="http://dinosaur.compilertools.net/">The Lex &amp; Yacc Page (dinosaur.compilertools.net)</a> </li>
+</ul>
+<center><font size="+1">Good Luck! - Have fun.</font> </center>
+
+<hr>
+
+
+</li></ul></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
