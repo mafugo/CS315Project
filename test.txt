@@ -1,1 +1,16 @@
+start;
 
+int timestamp;
+float temp;
+float humidity;
+float light;
+
+
+
+read_from_sensor(temp_sensor,temp);
+read_from_sensor(humidity_sensor,humidity);
+read_from_sensor(light_sensor,light);
+time_from_timer(timestamp);
+
+
+end;
