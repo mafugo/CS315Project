@@ -65,6 +65,7 @@ for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_expr}{end_stmt}{RP}{LB}{end_stm
 end_stmt {semicolon}
 
 declare_stmt 	({int_declare}|{str_declare}|{char_declare}|{float_declare}|{bool_declare})
+
 int_declare (int{space}{int_var}|int{space}{int_assign})
 float_declare (float{space}{float_var}|float{space}{float_assign})
 str_declare (string{space}{str_var}|string{space}{str_assign})
@@ -74,7 +75,6 @@ bool_declare (bool{space}{bool_var}|bool{space}{bool_assign})
 
 
 assign_stmt ({int_assign}|{float_assign}|{str_assign}|{char_assign}|{bool_assign})
-
 
 int_assign ({int_var}{assign_operand}{num_var}|{int_var}{assign_operand}{num_val})
 float_assign ({float_var}{assign_operand}{num_var}|{float_var}{assign_operand}{num_val})
@@ -120,6 +120,15 @@ num_var ({int_var}|{float_var})
 {comma} {printf("COMMA");}
 
 {int_declare} {printf("INT_DECLARE");}
+{str_declare} {printf("STR_DECLARE");}
+{char_declare} {printf("CHAR_DECLARE");}
+{bool_declare} {printf("BOOL_DECLARE");}
+{float_declare} {printf("FLOAT_DECLARE");}
 
+{float_assign} {printf("FLOAT_ASSIGN");}
+{int_assign} {printf("INT_ASSIGN");}
+{str_assign} {printf("STR_ASSIGN");}
+{char_assign} {printf("CHAR_ASSIGN");}
+{bool_assign} {printf("BOOL_ASSIGN");}
 . ;
 %%
