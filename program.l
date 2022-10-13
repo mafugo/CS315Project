@@ -23,7 +23,7 @@ equivalent_op {==}
 less_eq_op {<=}
 greater_eq_op {>=}
 not_eq_op {!=}
-comparison_operand [{less_op}{greater_op}{less_eq_op}{greater_eq_op}{equivalent_op}{not_eq_op}]
+comparison_operand ({less_op}{greater_op}{less_eq_op}{greater_eq_op}{equivalent_op}{not_eq_op})
 assign_operand [=]
 string_id ["]
 char_id [']
@@ -70,7 +70,7 @@ int_declare (int{space}{int_var}|int{space}{int_assign})
 float_declare (float{space}{float_var}|float{space}{float_assign})
 str_declare (string{space}{str_var}|string{space}{str_assign})
 char_declare (char{space}{char_var}|char{space}{char_assign})
-bool_declare (bool{space}{bool_var}|bool{space}{logic_assign})
+bool_declare (bool{space}{bool_var}|bool{space}{logic_operation})
 
 
 
@@ -85,7 +85,7 @@ bool_assign ({bool_var}={bool_value}|{bool_var}={bool_expr})
 
 
 char_var ({letter}|{letter}{string})
-string_var ({letter}|{letter}{string})
+str_var ({letter}|{letter}{string})
 int_var ({letter}|{letter}{string})
 float_var ({letter}|{letter}{string})
 bool_var ({letter}|{letter}{string})
