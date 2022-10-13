@@ -31,7 +31,7 @@ hashtag "#"
 space " "
 
 true "true"|"yes"|"on"
-false (false)|(off)|(no)
+false "false"|"off"|"no"
 
 while "while"
 for "for"
@@ -47,14 +47,15 @@ letter [A-Za-z]
 int {minus_op}?{digit}+
 float {minus_op}?{digit}*(\.){digit}+
 
-alphanumeric [{letter}{digit}]
-char_list {alphanumeric}+
+alphanumeric [{letter}{digit}]*
 
-identifier ({letter}|({letter}{char_list}))
-string ({double_quote}({char_list}|{space})*{double_quote})
+string ({double_quote}{alphanumeric}{double_quote})
+identifier ({letter}|({letter}{alphanumeric}))
 char ({single_quote}{alphanumeric}{single_quote})
 bool ({true}|{false})
 end_stmt {semicolon}
+
+comment		{hashtag}([^\n]*)(\n)
 
 input (input)
 input_from_connection (input_from_connection)
@@ -110,7 +111,8 @@ disconnected (disconnected_status)
 {new_line} {printf("NEW_LINE\n");}
 {hashtag} {printf("HASHTAG ");}
 {dot} {printf("DOT ");}
-{input} {printf("INPUT ")}
+{comment} {printf("COMMENT");}
+{input} {printf("INPUT ");}
 {input_from_connection} {printf("INPUT_FROM_CONNECTION ");}
 {print} {printf("PRINT ");}
 {output_to_connection} {printf("OUTPUT_TO_CONNECTION ");}
