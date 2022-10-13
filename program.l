@@ -70,7 +70,7 @@ int_declare (int{space}{int_var}|int{space}{int_assign})
 float_declare (float{space}{float_var}|float{space}{float_assign})
 str_declare (string{space}{str_var}|string{space}{str_assign})
 char_declare (char{space}{char_var}|char{space}{char_assign})
-bool_declare (bool{space}{bool_var}|bool{space}{logic_assign})
+bool_declare (bool{space}{bool_var}|bool{space}{bool_assign})
 
 
 
