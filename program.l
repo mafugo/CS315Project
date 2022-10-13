@@ -19,10 +19,10 @@ or_op [|]
 logic_operand ({and_op}|{or_op})
 less_op [<]
 greater_op [>]
-equivalent_op {==}
-less_eq_op {<=}
-greater_eq_op {>=}
-not_eq_op {!=}
+equivalent_op (==)
+less_eq_op (<=)
+greater_eq_op (>=)
+not_eq_op (!=)
 comparison_operand ({less_op}|{greater_op}|{less_eq_op}|{greater_eq_op}|{equivalent_op}|{not_eq_op})
 assign_operand [=]
 string_id ["]
@@ -36,8 +36,8 @@ off (off)
 no (no)
 while (while)
 for (for)
-true_val ({true}|{on}|{yes}|1)
-false_val ({false}|{off}|{no}|0)
+true_val ({true}|{on}|{yes})
+false_val ({false}|{off}|{no})
 
 letter [A-Za-z]
 
@@ -48,7 +48,7 @@ float {minus_op}?{digit}*(\.){digit}+
 char {letter}?{digit}?
 char_with_id ({char_id}{char}{char_id})
 
-num_val [{int}{float}{char}]
+num_val ({int}|{float}|{char})
 char_list {char}+
 
 string {char_list}
@@ -56,14 +56,14 @@ string_with_id {string_id}{string}{string_id}
 
 bool_value ({true_val}|{false_val})
 logic_operation ({bool_value}{logic_operand}{bool_value})
-comparison_operation ({num_val}{comparison_operand}{num_val})
+comparison_operation (({int}|{float}|{char}){comparison_operand}({int}|{float}|{char}))
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
 for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_exp}{end_stmt}{RP}{LB}{end_stmt}{RB})
 
 end_stmt {semicolon}
-
+gcc -o example lex.yy.c
 
 declare_stmt 	({int_declare}|{str_declare}|{char_declare}|{float_declare}|{bool_declare})
 int_declare (int{space}{int_var}|int{space}{int_assign})
@@ -98,18 +98,17 @@ num_var ({int_var}|{float_var})
 
 
 %%
-{bool_value} {printf("BOOL_VALUE");}
-{logic_operation} {printf("LOGIC_OPERATION");}
-{bool_expr} {printf("BOOL_EXPR");}
-{logic_operand} {printf("LOGIC_OPERAND");}
 {int} {printf("INT");}
 {float} {printf("FLOAT");}
 {char} {printf("CHAR");}
+{bool_value} {printf("BOOL_VALUE");}
+{logic_operand} {printf("LOGIC_OPERAND");}
+{comparison_operand} {printf("COMPARISON_OPERAND");}
+{bool_expr} {printf("BOOL_EXPR");}
 {char_with_id} {printf("CHAR_W_ID");}
 {while} {printf("WHILE");}
 {while_stmt} {printf("WHILE_STMT");}
 {for} {printf("FOR");}
-{for_stmt} {printf("FOR_STMT");}
 {string} {printf("STRING");}
 {string_with_id} {printf("STRING_W_ID");}
 {LB} {printf("LB");}
@@ -119,7 +118,6 @@ num_var ({int_var}|{float_var})
 {end_stmt} {printf("END_STMT");}
 {colon} {printf("COLON");}
 {comma} {printf("COMMA");}
-{comparison_operation} {printf("COMPARISON_OPERTION");}
 
 {int_declare} {printf("INT_DECLARE");}
 
