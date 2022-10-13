@@ -60,10 +60,9 @@ comparison_operation (({int}|{float}|{char}){comparison_operand}({int}|{float}|{
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
-for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_exp}{end_stmt}{RP}{LB}{end_stmt}{RB})
+for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_expr}{end_stmt}{RP}{LB}{end_stmt}{RB})
 
 end_stmt {semicolon}
-gcc -o example lex.yy.c
 
 declare_stmt 	({int_declare}|{str_declare}|{char_declare}|{float_declare}|{bool_declare})
 int_declare (int{space}{int_var}|int{space}{int_assign})
@@ -109,6 +108,7 @@ num_var ({int_var}|{float_var})
 {while} {printf("WHILE");}
 {while_stmt} {printf("WHILE_STMT");}
 {for} {printf("FOR");}
+{for_stmt} {printf("FOR_STMT");}
 {string} {printf("STRING");}
 {string_with_id} {printf("STRING_W_ID");}
 {LB} {printf("LB");}
