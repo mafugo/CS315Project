@@ -111,15 +111,15 @@ disconnected (disconnected_status)
 {hashtag} {printf("HASHTAG ");}
 {dot} {printf("DOT ");}
 {input} {printf("INPUT ")}
-{input_from_connection} {printf("INPUT_FROM_CONNECTION ")}
-{print} {printf("PRINT ")}
-{output_to_connection} {printf("OUTPUT_TO_CONNECTION ")}
-{read_from_sensor} {printf("READ_FROM_SENSOR ")}
-{time_from_timer} {printf("TIME_FROM_TIMER ")}
-{connect} {printf(CONNECT)}
-{connected} {printf(CONNECTED)}
-{connecting} {printf(CONNECTING)}
-{disconnected} {printf(DISCONNECTED)}
+{input_from_connection} {printf("INPUT_FROM_CONNECTION ");}
+{print} {printf("PRINT ");}
+{output_to_connection} {printf("OUTPUT_TO_CONNECTION ");}
+{read_from_sensor} {printf("READ_FROM_SENSOR ");}
+{time_from_timer} {printf("TIME_FROM_TIMER ");}
+{connect} {printf("CONNECT ");}
+{connected} {printf("CONNECTED ");}
+{connecting} {printf("CONNECTING ");}
+{disconnected} {printf("DISCONNECTED ");}
 . ;
 
 %%
