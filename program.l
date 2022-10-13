@@ -122,5 +122,6 @@ num_var ({int_var}|{float_var})
 {comparison_operation} {printf("COMPARISON_OPERTION");}
 
 {int_declare} {printf("INT_DECLARE");}
+
 . ;
 %%
