@@ -1,7 +1,6 @@
 %option main
 start start
 end end
-digit [0-9]
 LP "("
 RP ")"
 LB "{"
@@ -36,22 +35,25 @@ false "false"|"off"|"no"
 while "while"
 for "for"
 if "if"
+else "else"
 func "func"
 return "return"
 continue "continue"
 break "break"
-else "else"
 
+digit [0-9]
 letter [A-Za-z]
 
 int {minus_op}?{digit}+
 float {minus_op}?{digit}*(\.){digit}+
 
-alphanumeric [{letter}{digit}]*
 
-string ({double_quote}{alphanumeric}{double_quote})
-identifier ({letter}|({letter}{alphanumeric}))
-char ({single_quote}{alphanumeric}{single_quote})
+alphanumeric ({letter}|{digit})
+identifier ({letter}|({letter}{alphanumeric}+))
+string \".*\"
+char \'({letter}|{digit})\'
+
+
 bool ({true}|{false})
 end_stmt {semicolon}
 
@@ -79,7 +81,6 @@ getURL_func "getURL"
 {bool} {printf("BOOL ");}
 {string} {printf("STRING ");}
 {while} {printf("WHILE ");}
-{identifier} {printf("IDENTIFIER ");}
 {if} {printf("IF ");}
 {else} {printf("ELSE ");}
 {break} {printf("BREAK ");}
@@ -120,13 +121,12 @@ getURL_func "getURL"
 {output_to_connection} {printf("OUTPUT_TO_CONNECTION ");}
 {read_from_sensor} {printf("READ_FROM_SENSOR ");}
 {time_from_timer} {printf("TIME_FROM_TIMER ");}
-
 {connect_func} {printf("CONNECT_FUNC ");}
 {new_inst} {printf("NEW_INST ");}
 {connection_class} {printf("CONNECTION_CLASS ");}
 {get_status_func} {printf("GET_STATUS_FUNC ");}
 {get_protocol_func} {printf("GET_PROTOCOL_FUNC ");}
 {getURL_func} {printf("GET_URL_FUNC ");}
+{identifier} {printf("IDENTIFIER ");}
 . ;
-
 %%
