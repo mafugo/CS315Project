@@ -23,7 +23,7 @@ equivalent_op {==}
 less_eq_op {<=}
 greater_eq_op {>=}
 not_eq_op {!=}
-comparison_operand [{less_op}{greater_op}{less_eq_op}{greater_eq_op}{equivalent_op}{not_eq_op}]
+comparison_operand ({less_op}|{greater_op}|{less_eq_op}|{greater_eq_op}|{equivalent_op}|{not_eq_op})
 assign_operand [=]
 string_id ["]
 char_id [']
@@ -75,21 +75,21 @@ bool_declare (bool{space}{bool_var}|bool{space}{logic_assign})
 assign_stmt ({int_assign}|{float_assign}|{str_assign}|{char_assign}|{bool_assign})
 
 
-int_assign ({int_var}={num_var}|{int_var}={num_val})
-float_assign ({float_var}={num_var}|{float_var}={num_val})
-str_assign ({str_var}={string_with_id})
-char_assign ({char_var}={char_with_id})
-bool_assign ({bool_var}={bool_value}|{bool_var}={bool_expr})
+int_assign ({int_var}{assign_operand}{num_var}|{int_var}{assign_operand}{num_val})
+float_assign ({float_var}{assign_operand}{num_var}|{float_var}{assign_operand}{num_val})
+str_assign ({str_var}{assign_operand}{string_with_id})
+char_assign ({char_var}{assign_operand}{char_with_id})
+bool_assign ({bool_var}{assign_operand}{bool_value}|{bool_var}{assign_operand}{bool_expr})
 
 
 char_var ({letter}|{letter}{string})
-string_var ({letter}|{letter}{string})
+str_var ({letter}|{letter}{string})
 int_var ({letter}|{letter}{string})
 float_var ({letter}|{letter}{string})
 bool_var ({letter}|{letter}{string})
 func_var ({letter}|{letter}{string})
 
-var ({string_var}|{char_var}|{int_var}|{float_var}|{bool_var}| {func_var})
+var ({str_var}|{char_var}|{int_var}|{float_var}|{bool_var}| {func_var})
 
 num_var ({int_var}|{float_var})
 
