@@ -55,7 +55,7 @@ string_with_id {string_id}{string}{string_id}
 
 bool_value ({true_val}|{false_val})
 logic_operation ({bool_value}{logic_operand}{bool_value})
-comparison_operation {num_val}{comparison_operand}{num_val}
+comparison_operation ({num_val}{comparison_operand}{num_val})
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
