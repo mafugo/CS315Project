@@ -35,6 +35,7 @@ false (false)
 off (off)
 no (no)
 while (while)
+for (for)
 true_val ({true}|{on}|{yes}|1)
 false_val ({false}|{off}|{no}|0)
 
@@ -55,16 +56,16 @@ string_with_id {string_id}{string}{string_id}
 
 bool_value ({true_val}|{false_val})
 logic_operation ({bool_value}{logic_operand}{bool_value})
-comparison_operation {num_val}{comparison_operand}{num_val}
+comparison_operation ({num_val}{comparison_operand}{num_val})
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
+for_stmt ({for}{LP}{end_stmt}{RP})
 
 end_stmt {semicolon}
 
 
 %%
-{}
 {bool_value} {printf("BOOL_VALUE");}
 {logic_operation} {printf("LOGIC_OPERATION");}
 {bool_expr} {printf("BOOL_EXPR");}
@@ -75,6 +76,8 @@ end_stmt {semicolon}
 {char_with_id} {printf("CHAR_W_ID");}
 {while} {printf("WHILE");}
 {while_stmt} {printf("WHILE_STMT");}
+{for} {printf("FOR");}
+{for_stmt} {printf("FOR_STMT");}
 {string} {printf("STRING");}
 {string_with_id} {printf("STRING_W_ID");}
 {LB} {printf("LB");}
