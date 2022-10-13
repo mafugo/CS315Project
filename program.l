@@ -60,7 +60,7 @@ comparison_operation ({num_val}{comparison_operand}{num_val})
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
-for_stmt ({for}{LP}{end_stmt}{RP})
+for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_exp}{end_stmt}{RP}{LB}{end_stmt}{RB})
 
 end_stmt {semicolon}
 
