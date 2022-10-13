@@ -35,6 +35,7 @@ false (false)
 off (off)
 no (no)
 while (while)
+for (for)
 true_val ({true}|{on}|{yes}|1)
 false_val ({false}|{off}|{no}|0)
 
@@ -59,6 +60,7 @@ comparison_operation ({num_val}{comparison_operand}{num_val})
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
 while_stmt ({while}{LB}{end_stmt}{RB})
+for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_exp}{end_stmt}{RP}{LB}{end_stmt}{RB})
 
 end_stmt {semicolon}
 
@@ -96,7 +98,6 @@ num_var ({int_var}|{float_var})
 
 
 %%
-{}
 {bool_value} {printf("BOOL_VALUE");}
 {logic_operation} {printf("LOGIC_OPERATION");}
 {bool_expr} {printf("BOOL_EXPR");}
@@ -107,6 +108,8 @@ num_var ({int_var}|{float_var})
 {char_with_id} {printf("CHAR_W_ID");}
 {while} {printf("WHILE");}
 {while_stmt} {printf("WHILE_STMT");}
+{for} {printf("FOR");}
+{for_stmt} {printf("FOR_STMT");}
 {string} {printf("STRING");}
 {string_with_id} {printf("STRING_W_ID");}
 {LB} {printf("LB");}
@@ -119,5 +122,6 @@ num_var ({int_var}|{float_var})
 {comparison_operation} {printf("COMPARISON_OPERTION");}
 
 {int_declare} {printf("INT_DECLARE");}
+
 . ;
 %%
