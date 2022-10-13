@@ -17,11 +17,11 @@ colon [:]
 and_op [&]
 or_op [|]
 logic_operand ({and_op}|{or_op})
-less_op [<]
-greater_op [>]
+less_op [{]
+greater_op [}]
 equivalent_op {==}
-less_eq_op {<=}
-greater_eq_op {>=}
+less_eq_op {{=}
+greater_eq_op {}=}
 not_eq_op {!=}
 comparison_operand [{less_op}{greater_op}{less_eq_op}{greater_eq_op}{equivalent_op}{not_eq_op}]
 assign_operand [=]
@@ -65,6 +65,38 @@ for_stmt ({for}{LP}{end_stmt}{RP})
 end_stmt {semicolon}
 
 
+declare_stmt 	({int_declare}|{str_declare}|{char_declare}|{float_declare}|{bool_declare})
+int_declare (int{space}{int_var}|int{space}{int_assign})
+float_declare (float{space}{float_var}|float{space}{float_assign})
+str_declare (string{space}{str_var}|string{space}{str_assign})
+char_declare (char{space}{char_var}|char{space}{char_assign})
+bool_declare (bool{space}{bool_var}|bool{space}{logic_assign})
+
+
+
+assign_stmt ({int_assign}|{float_assign}|{str_assign}|{char_assign}|{bool_assign})
+
+
+int_assign ({int_var}={num_var}|{int_var}={num_val})
+float_assign ({float_var}={num_var}|{float_var}={num_val})
+str_assign ({str_var}={string_with_id})
+char_assign ({char_var}={char_with_id})
+bool_assign ({bool_var}={bool_value}|{bool_var}={bool_expr})
+
+
+char_var ({letter}|{letter}{string})
+string_var ({letter}|{letter}{string})
+int_var ({letter}|{letter}{string})
+float_var ({letter}|{letter}{string})
+bool_var ({letter}|{letter}{string})
+func_var ({letter}|{letter}{string})
+
+var ({string_var}|{char_var}|{int_var}|{float_var}|{bool_var}| {func_var})
+
+num_var ({int_var}|{float_var})
+
+
+
 %%
 {bool_value} {printf("BOOL_VALUE");}
 {logic_operation} {printf("LOGIC_OPERATION");}
@@ -87,5 +119,8 @@ end_stmt {semicolon}
 {end_stmt} {printf("END_STMT");}
 {colon} {printf("COLON");}
 {comma} {printf("COMMA");}
+{comparison_operation} {printf("COMPARISON_OPERTION");}
+
+{int_declare} {printf("INT_DECLARE");}
 . ;
 %%
