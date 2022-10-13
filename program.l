@@ -34,6 +34,7 @@ yes (yes)
 false (false)
 off (off)
 no (no)
+while (while)
 true_val ({true}|{on}|{yes}|1)
 false_val ({false}|{off}|{no}|0)
 
@@ -55,9 +56,13 @@ string_with_id {string_id}{string}{string_id}
 bool_value ({true_val}|{false_val})
 logic_operation ({bool_value}{logic_operand}{bool_value})
 comparison_operation {num_val}{comparison_operand}{num_val}
-bool_expr [{logic_operation}{bool_value}{comparison_operation}]
+bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
+
+while_stmt ({while}{LB}{end_stmt}{RB})
 
 end_stmt {semicolon}
+
+
 %%
 {bool_value} {printf("BOOL_VALUE");}
 {logic_operation} {printf("LOGIC_OPERATION");}
@@ -67,13 +72,16 @@ end_stmt {semicolon}
 {float} {printf("FLOAT");}
 {char} {printf("CHAR");}
 {char_with_id} {printf("CHAR_W_ID");}
+{while} {printf("WHILE");}
+{while_stmt} {printf("WHILE_STMT");}
 {string} {printf("STRING");}
 {string_with_id} {printf("STRING_W_ID");}
+{LB} {printf("LB");}
+{RB} {printf("RB");}
 {LP} {printf("LP");}
 {RP} {printf("RP");}
 {end_stmt} {printf("END_STMT");}
 {colon} {printf("COLON");}
 {comma} {printf("COMMA");}
-{comparison_operation} {printf("COMPARISON_OPERTION");}
 . ;
 %%
