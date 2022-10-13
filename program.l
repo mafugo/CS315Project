@@ -75,8 +75,8 @@ bool_declare (bool{space}{bool_var}|bool{space}{logic_assign})
 assign_stmt ({int_assign}|{float_assign}|{str_assign}|{char_assign}|{bool_assign})
 
 
-int_assign ({int_var}={num_var}|{int_var}={num_value})
-float_assign ({float_var}={num_var}|{float_var}={num_value})
+int_assign ({int_var}={num_var}|{int_var}={num_val})
+float_assign ({float_var}={num_var}|{float_var}={num_val})
 str_assign ({str_var}={string_with_id})
 char_assign ({char_var}={char_with_id})
 bool_assign ({bool_var}={bool_value}|{bool_var}={bool_expr})
