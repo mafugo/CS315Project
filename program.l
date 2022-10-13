@@ -17,11 +17,11 @@ colon [:]
 and_op [&]
 or_op [|]
 logic_operand ({and_op}|{or_op})
-less_op [{]
-greater_op [}]
+less_op [<]
+greater_op [>]
 equivalent_op {==}
-less_eq_op {{=}
-greater_eq_op {}=}
+less_eq_op {<=}
+greater_eq_op {>=}
 not_eq_op {!=}
 comparison_operand [{less_op}{greater_op}{less_eq_op}{greater_eq_op}{equivalent_op}{not_eq_op}]
 assign_operand [=]
