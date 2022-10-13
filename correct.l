@@ -63,12 +63,14 @@ print (print)
 output_to_connection (output_to_connection)
 read_from_sensor (read_from_sensor)
 time_from_timer (time_from_timer)
-connect (connect)
 
+new_inst "new"
+connect_func "connect"
+connection_class "Connect"
+get_status_func "getStatus"
+get_protocol_func "getProtocol"
+getURL_func "getURL"
 
-connected (connected_status)
-connecting (connecting_status)
-disconnected (disconnected_status)
 
 %%
 {int} {printf("INT ");}
@@ -118,10 +120,13 @@ disconnected (disconnected_status)
 {output_to_connection} {printf("OUTPUT_TO_CONNECTION ");}
 {read_from_sensor} {printf("READ_FROM_SENSOR ");}
 {time_from_timer} {printf("TIME_FROM_TIMER ");}
-{connect} {printf("CONNECT ");}
-{connected} {printf("CONNECTED ");}
-{connecting} {printf("CONNECTING ");}
-{disconnected} {printf("DISCONNECTED ");}
+
+{connect_func} {printf("CONNECT_FUNC ");}
+{new_inst} {printf("NEW_INST ");}
+{connection_class} {printf("CONNECTION_CLASS ");}
+{get_status_func} {printf("GET_STATUS_FUNC ");}
+{get_protocol_func} {printf("GET_PROTOCOL_FUNC ");}
+{getURL_func} {printf("GET_URL_FUNC ");}
 . ;
 
 %%
