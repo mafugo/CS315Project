@@ -64,6 +64,7 @@ end_stmt {semicolon}
 
 
 %%
+{}
 {bool_value} {printf("BOOL_VALUE");}
 {logic_operation} {printf("LOGIC_OPERATION");}
 {bool_expr} {printf("BOOL_EXPR");}
