@@ -116,11 +116,8 @@ num_var ({int_var}|{float_var})
 {end_stmt} {printf("END_STMT");}
 {colon} {printf("COLON");}
 {comma} {printf("COMMA");}
-<<<<<<< HEAD
 {comparison_operation} {printf("COMPARISON_OPERTION");}
 
 {int_declare} {printf("INT_DECLARE");}
-=======
->>>>>>> c24cb81c5d423f7f47f2f1725b512b549f87fc11
 . ;
 %%
