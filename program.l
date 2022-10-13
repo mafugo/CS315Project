@@ -36,6 +36,12 @@ off (off)
 no (no)
 while (while)
 for (for)
+func (func)
+return (return)
+return_stmt ({return}{space}{values}{end_stmt})
+continue_stmt (continue)
+break_stmt (break)
+else (else)
 true_val ({true}|{on}|{yes})
 false_val ({false}|{off}|{no})
 
@@ -43,7 +49,7 @@ letter [A-Za-z]
 
 int {minus_op}?{digit}+
 
-float {minus_op}?{digit}*(\.){digit}+
+float {minus_op}?{digit}* {digit}+
 
 char {letter}?{digit}?
 char_with_id ({char_id}{char}{char_id})
@@ -54,15 +60,30 @@ char_list {char}+
 string {char_list}
 string_with_id {string_id}{string}{string_id}
 
+stmts {stmt}+
+stmt {{if_stmt}|{non-if_stmt}}
+if_stmt ({matched_stmt}|{unmatched_stmt})
+
+matched_stmt (({if}{LP}{bool_expr}{RP}{matched_stmt}{else}{matched_stmt} )|({non-if_stmt}))
+unmatched_stmt (({if}{LP}{bool_expr}{RP}{stmt})| ({if}{LP}{bool_expr}{RP}{matched_stmt}{else}{unmatched_stmt}))
+
+non-if_stmt ({declare_stmt}|{assign_stmt}|{func_define}|{break_stmt}{continue_stmt}{while_stmt}{for_stmt}{end_stmt})
+
 bool_value ({true_val}|{false_val})
 logic_operation ({bool_value}{logic_operand}{bool_value})
 comparison_operation (({int}|{float}|{char}){comparison_operand}({int}|{float}|{char}))
 bool_expr ({logic_operation}|{bool_value}|{comparison_operation})
 
-while_stmt ({while}{LB}{end_stmt}{RB})
-for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_expr}{end_stmt}{RP}{LB}{end_stmt}{RB})
+while_stmt ({while}{bool_expr}{LB}{stmts}{RB})
+for_stmt ({for}{LP}{declare_stmt}{end_stmt}{bool_expr}{end_stmt}{RP}{LB}{stmts}{RB})
 
 end_stmt {semicolon}
+
+parameters {parameter}+
+parameter (({int}{space}{int_var})|({float}{space}{float_var})|({string}{space}{string_var})|({char}{space}{char_var})|({bool}{space}{bool_var}))
+func_body ({return_stmt}|{stmts}{return_stmt})
+values ({int}|{float}|{bool}|{string}|{char})
+func_define ({func}{space}{func_var}{LP}{parameters}{RP}{LB}{func_body}{RB})
 
 declare_stmt 	({int_declare}|{str_declare}|{char_declare}|{float_declare}|{bool_declare})
 int_declare (int{space}{int_var}|int{space}{int_assign})
@@ -118,7 +139,9 @@ num_var ({int_var}|{float_var})
 {end_stmt} {printf("END_STMT");}
 {colon} {printf("COLON");}
 {comma} {printf("COMMA");}
-
+{values} {;}
+{parameter} {printf("PARAMETER");}
+{func_define} {printf("FUNC_DEFINE");}
 {int_declare} {printf("INT_DECLARE");}
 
 . ;
