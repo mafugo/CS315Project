@@ -14,25 +14,70 @@ time_from_timer(timestamp);
 
 
 
+#Arithmetic Operations/assignments/declerations
+print((12+2*4)/(7));
+int number;
+number=9;
+int num=1;
+int numneg=-1;
+float flt1=3.8;
+float fltneg=-9.8;
 
-print((12+2*4)/(7))
+
+#Declerations
+string str1="arda";
+string str3="sel";
+char chr1='a';
 
 
 
 
-func string OddEven(int integer){
-    string result;
-    if(a==1){
-        result = "a is an odd number";
-    }else{
-        result = "a is an even number";
+
+#logic declerations
+bool bool1=true;
+bool bool2=on;
+bool bool3=(bool1&bool2)
+
+
+#for the given b do not print
+int b=10;
+for(int i=0; i<12, i=i+1){
+    if(i==b){
+        continue;
     }
-    return result;
+    print(i);
 }
 
-int c = input(
-int a = 10;
+
+#While check
+while(b!=0){
+    b=b-1;
+    if(b==10){
+        break;
+    }
+}
+print(b);
+
+
+
+
+#Function definition that checks the given integer if it is odd or even
+func string OddEven(int integer){
+    string result;
+    while(integer>1)
+        if(((integer!=1)|(integer!=0))&(integer>0)){
+            result = "a is an odd number";
+        }else{
+            result = "a is an even number";
+        }
+        integer=integer/2;
+    return result;
+}
+#Function call
 print(OddEven(a));
+
+#take input
+int in = input()
 
 
 end;
