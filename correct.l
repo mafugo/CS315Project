@@ -65,16 +65,16 @@ end_stmt {semicolon}
 
 comment		{hashtag}([^\n]*)(\n)
 
-input (input)
-input_from_connection (input_from_connection)
-print (print)
-output_to_connection (output_to_connection)
-read_from_sensor (read_from_sensor)
-time_from_timer (time_from_timer)
+input "input"
+input_from_connection "input_from_connection"
+print "print"
+output_to_connection "output_to_connection"
+read_from_sensor "read_from_sensor"
+time_from_timer "time_from_timer"
 
 new_inst "new"
 connect_func "connect"
-connection_class "Connect"
+connection_class "Connection"
 get_status_func "getStatus"
 get_protocol_func "getProtocol"
 getURL_func "getURL"
