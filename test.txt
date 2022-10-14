@@ -13,4 +13,25 @@ read_from_sensor(light_sensor,light);
 time_from_timer(timestamp);
 
 
+
+
+print((12+2*4)/(7))
+
+
+
+
+func string OddEven(int integer){
+    string result;
+    if(a==1){
+        result = "a is an odd number";
+    }else{
+        result = "a is an even number";
+    }
+    return result;
+}
+
+int c = input(
+int a = 10;
+print(OddEven(a));
+
 end;
