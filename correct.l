@@ -132,7 +132,7 @@ getURL_func "getURL"
 {double_quote} {printf("DOUBLE_QUOTE ");}
 {new_line} {printf("NEW_LINE\n");}
 {dot} {printf("DOT ");}
-{comment} {printf("COMMENT");}
+{comment} {printf("COMMENT ");}
 {input} {printf("INPUT ");}
 {input_from_connection} {printf("INPUT_FROM_CONNECTION ");}
 {print} {printf("PRINT ");}
