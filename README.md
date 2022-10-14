@@ -3,3 +3,4 @@ We are group of three:
 -Mahmut Furkan Gön https://github.com/mafugo
 -Omar Hamdash https://github.com/O-Hamdash
 -Ahmet Arda Ceylan https://github.com/ardaceylan
+We used discord for communication.
