@@ -42,7 +42,7 @@ string url;
 connection1.getURL(url);
 
 #Arithmetic Operations/assignments/declerations
-print((12+2*4)/(7));
+print((12 + 2 * 4) / (7));
 int number;
 number=9;
 int num=1;
@@ -63,7 +63,7 @@ bool bool3=(bool1&bool2)
 
 #for the given b do not print
 int b=10;
-for(int i=0; i<12, i=i+1){
+for(int i=0; i<12, i=i + 1){
     if(i==b){
         continue;
     }
@@ -73,7 +73,7 @@ for(int i=0; i<12, i=i+1){
 
 #While check
 while(b!=0){
-    b=b-1;
+    b=b - 1;
     if(b==10){
         break;
     }
@@ -88,7 +88,7 @@ func OddEven(int integer, string result){
         }else{
             result = "it is an even number";
         }
-        integer=integer/2;
+        integer=integer / 2;
     return;
 }
 #Function call
