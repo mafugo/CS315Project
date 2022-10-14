@@ -34,4 +34,5 @@ int c = input(
 int a = 10;
 print(OddEven(a));
 
+
 end;
