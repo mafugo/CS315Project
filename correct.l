@@ -86,6 +86,7 @@ time_from_timer "time_from_timer"
 new_inst "new"
 connect_func "connect"
 connection_class "Connection"
+connection_constructor "Connection()"
 get_status_func "getStatus"
 get_protocol_func "getProtocol"
 getURL_func "getURL"
@@ -142,6 +143,7 @@ getURL_func "getURL"
 {func} {printf("FUNC ");}
 {new_inst} {printf("NEW_INST ");}
 {connection_class} {printf("CONNECTION_CLASS ");}
+{connection_constructor} {printf("CONNECTION_CONSTRUCTOR ");}
 {get_status_func} {printf("GET_STATUS_FUNC ");}
 {get_protocol_func} {printf("GET_PROTOCOL_FUNC ");}
 {getURL_func} {printf("GET_URL_FUNC ");}
