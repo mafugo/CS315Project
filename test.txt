@@ -31,8 +31,6 @@ connection1.getProtocol(protocol1);
 string url;
 connection1.getURL(url);
 
-
-
 #Arithmetic Operations/assignments/declerations
 print((12+2*4)/(7));
 int number;
@@ -42,15 +40,10 @@ int numneg=-1;
 float flt1=3.8;
 float fltneg=-9.8;
 
-
 #Declerations
 string str1="arda";
 string str3="sel";
 char chr1='a';
-
-
-
-
 
 #logic declerations
 bool bool1=true;
@@ -77,26 +70,22 @@ while(b!=0){
 }
 print(b);
 
-
-
-
 #Function definition that checks the given integer if it is odd or even
-func string OddEven(int integer){
-    string result;
+func OddEven(int integer, string result){
     while(integer>1)
         if(((integer!=1)|(integer!=0))&(integer>0)){
-            result = "a is an odd number";
+            result = "it is an odd number";
         }else{
-            result = "a is an even number";
+            result = "it is an even number";
         }
         integer=integer/2;
-    return result;
 }
 #Function call
-print(OddEven(a));
+string result;
+int a=5;
+OddEven(a, result);
+print(result);
 
 #take input
 int in = input()
-
-
 end;
