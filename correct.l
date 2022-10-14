@@ -66,7 +66,7 @@ char \'({letter}|{digit})\'
 bool ({true}|{false})
 end_stmt {semicolon}
 
-comment		{hashtag}([^\n]*)(\n)
+comment	{hashtag}([^\n]*)(\n)
 
 input "input"
 input_from_connection "input_from_connection"
