@@ -86,7 +86,6 @@ getURL_func "getURL"
 {break} {printf("BREAK ");}
 {continue} {printf("CONTINUE ");}
 {return} {printf("RETURN ");}
-{func} {printf("FUNC ");}
 {for} {printf("FOR ");}
 {LB} {printf("LB ");}
 {RB} {printf("RB ");}
@@ -112,7 +111,6 @@ getURL_func "getURL"
 {single_quote} {printf("SINGLE_QUOTE ");}
 {double_quote} {printf("DOUBLE_QUOTE ");}
 {new_line} {printf("NEW_LINE\n");}
-{hashtag} {printf("HASHTAG ");}
 {dot} {printf("DOT ");}
 {comment} {printf("COMMENT");}
 {input} {printf("INPUT ");}
@@ -122,6 +120,7 @@ getURL_func "getURL"
 {read_from_sensor} {printf("READ_FROM_SENSOR ");}
 {time_from_timer} {printf("TIME_FROM_TIMER ");}
 {connect_func} {printf("CONNECT_FUNC ");}
+{func} {printf("FUNC ");}
 {new_inst} {printf("NEW_INST ");}
 {connection_class} {printf("CONNECTION_CLASS ");}
 {get_status_func} {printf("GET_STATUS_FUNC ");}
