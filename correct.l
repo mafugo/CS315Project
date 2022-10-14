@@ -29,6 +29,12 @@ assign_op "="
 hashtag "#"
 space " "
 
+int_type "int"
+float_type "float"
+string_type "string"
+char_type "char"
+bool_type "bool"
+
 true "true"|"yes"|"on"
 false "false"|"off"|"no"
 
@@ -59,16 +65,16 @@ end_stmt {semicolon}
 
 comment		{hashtag}([^\n]*)(\n)
 
-input (input)
-input_from_connection (input_from_connection)
-print (print)
-output_to_connection (output_to_connection)
-read_from_sensor (read_from_sensor)
-time_from_timer (time_from_timer)
+input "input"
+input_from_connection "input_from_connection"
+print "print"
+output_to_connection "output_to_connection"
+read_from_sensor "read_from_sensor"
+time_from_timer "time_from_timer"
 
 new_inst "new"
 connect_func "connect"
-connection_class "Connect"
+connection_class "Connection"
 get_status_func "getStatus"
 get_protocol_func "getProtocol"
 getURL_func "getURL"
@@ -126,6 +132,11 @@ getURL_func "getURL"
 {get_status_func} {printf("GET_STATUS_FUNC ");}
 {get_protocol_func} {printf("GET_PROTOCOL_FUNC ");}
 {getURL_func} {printf("GET_URL_FUNC ");}
+{int_type} {printf("INT_TYPE ");}
+{float_type} {printf("FLOAT_TYPE ");}
+{string_type} {printf("STRING_TYPE ");}
+{char_type} {printf("CHAR_TYPE ");}
+{bool_type} {printf("BOOL_TYPE ");}
 {identifier} {printf("IDENTIFIER ");}
 . ;
 %%
