@@ -35,6 +35,9 @@ string_type "string"
 char_type "char"
 bool_type "bool"
 
+prog_start "start"
+prog_end "end"
+
 true "true"|"yes"|"on"
 false "false"|"off"|"no"
 
@@ -137,6 +140,8 @@ getURL_func "getURL"
 {string_type} {printf("STRING_TYPE ");}
 {char_type} {printf("CHAR_TYPE ");}
 {bool_type} {printf("BOOL_TYPE ");}
+{prog_start} {printf("PROG_START ");}
+{prog_end} {printf("PROG_END ");}
 {identifier} {printf("IDENTIFIER ");}
 . ;
 %%
