@@ -5,12 +5,31 @@ float temp;
 float humidity;
 float light;
 
-
-
 read_from_sensor(temp_sensor,temp);
 read_from_sensor(humidity_sensor,humidity);
 read_from_sensor(light_sensor,light);
 time_from_timer(timestamp);
+
+string URL1;
+print("URL to connect to: ");
+input(URL1);
+Connection connection1 = new Connection();
+connection1.connect(URL1);
+
+string input1;
+connection1.input_from_connection(input1);
+
+print("input from connection"); print(input1);
+connection1.output_to_connection("mkdir newFolder");
+
+status status1;
+connection1.getStatus(status1);
+
+protocol protocol1;
+connection1.getProtocol(protocol1);
+
+string url;
+connection1.getURL(url);
 
 
 
