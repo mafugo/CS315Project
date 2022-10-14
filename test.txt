@@ -24,9 +24,19 @@ connection1.output_to_connection("mkdir newFolder");
 
 status status1;
 connection1.getStatus(status1);
+if(status1 == connected){
+    print("connected successfully");
+}else{
+    print("not connected");
+}
 
 protocol protocol1;
 connection1.getProtocol(protocol1);
+if(protocol1 == http){
+    print("the protocol is http");
+}else{
+    print("the protocol is not http");
+}
 
 string url;
 connection1.getURL(url);
