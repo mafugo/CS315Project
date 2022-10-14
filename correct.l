@@ -43,6 +43,7 @@ false "false"|"off"|"no"
 
 while "while"
 for "for"
+under_score "_"
 if "if"
 else "else"
 func "func"
@@ -58,7 +59,8 @@ float {minus_op}?{digit}*(\.){digit}+
 
 
 alphanumeric ({letter}|{digit})
-identifier ({letter}|({letter}{alphanumeric}+))
+alphasumeric ({letter}|{digit}|{under_score})
+identifier ({letter}|({letter}{alphasumeric}+))
 string \".*\"
 char \'({letter}|{digit})\'
 
