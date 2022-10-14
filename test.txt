@@ -79,6 +79,7 @@ func OddEven(int integer, string result){
             result = "it is an even number";
         }
         integer=integer/2;
+    return;
 }
 #Function call
 string result;
