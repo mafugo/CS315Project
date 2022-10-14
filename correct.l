@@ -34,6 +34,8 @@ float_type "float"
 string_type "string"
 char_type "char"
 bool_type "bool"
+status_type "status"
+protocol_type "protocol"
 
 prog_start "start"
 prog_end "end"
@@ -66,6 +68,10 @@ char \'({letter}|{digit})\'
 
 
 bool ({true}|{false})
+
+status "connected"|"connecting"|"disconnected"|"host_not_found"|"connection_timeou"
+protocol "http"|"https"|"tcp"|"ftp"|"tftp"
+
 end_stmt {semicolon}
 
 comment	{hashtag}([^\n]*)(\n)
@@ -91,6 +97,8 @@ getURL_func "getURL"
 {char} {printf("CHAR ");}
 {bool} {printf("BOOL ");}
 {string} {printf("STRING ");}
+{status} {printf("STATUS ");}
+{protocol} {printf("PROTOCOL ");}
 {while} {printf("WHILE ");}
 {if} {printf("IF ");}
 {else} {printf("ELSE ");}
@@ -142,6 +150,8 @@ getURL_func "getURL"
 {string_type} {printf("STRING_TYPE ");}
 {char_type} {printf("CHAR_TYPE ");}
 {bool_type} {printf("BOOL_TYPE ");}
+{status_type} {printf("STATUS_TYPE ");}
+{protocol_type} {printf("PROTOCOL_TYPE ");}
 {prog_start} {printf("PROG_START ");}
 {prog_end} {printf("PROG_END ");}
 {identifier} {printf("IDENTIFIER ");}
