@@ -93,6 +93,8 @@ getURL_func "getURL"
 
 
 %%
+{start} return START;
+{end} return END;
 {int} return INT;
 {float} return FLOAT;
 {char} return CHAR;
