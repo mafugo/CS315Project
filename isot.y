@@ -77,6 +77,7 @@ extern int yylineno;
 %token PROG_START
 %token PROG_END
 %token IDENTIFIER
+%token SPACE
 %%
 
 // Start Rule
@@ -157,13 +158,13 @@ declare_stmt: int_declare
             | status_declare
             | protocol_declare
 
-int_declare: INT_TYPE space int_var | INT_TYPE space int_assign
-float_declare: FLOAT_TYPE space float_var | FLOAT_TYPE space float_assign
-char_declare: CHAR_TYPE space char_var | CHAR_TYPE space char_assign
-str_declare: STRING_TYPE space str_var | STRING_TYPE space str_assign
-bool_declare: BOOL_TYPE space bool_var | BOOL_TYPE space bool_assign
-status_declare: STATUS_TYPE space status_var | STATUS_TYPE space status_assign
-protocol_declare: PROTOCOL_TYPE space protocol_var | PROTOCOL_TYPE space protocol_assign
+int_declare: INT_TYPE SPACE int_var | INT_TYPE SPACE int_assign
+float_declare: FLOAT_TYPE SPACE float_var | FLOAT_TYPE SPACE float_assign
+char_declare: CHAR_TYPE SPACE char_var | CHAR_TYPE SPACE char_assign
+str_declare: STRING_TYPE SPACE str_var | STRING_TYPE SPACE str_assign
+bool_declare: BOOL_TYPE SPACE bool_var | BOOL_TYPE SPACE bool_assign
+status_declare: STATUS_TYPE SPACE status_var | STATUS_TYPE SPACE status_assign
+protocol_declare: PROTOCOL_TYPE SPACE protocol_var | PROTOCOL_TYPE SPACE protocol_assign
 
 // assignment statements
 assign_stmt: int_assign
