@@ -209,5 +209,100 @@ var: str_var | char_var |int_var
     |protocol_var
 
 
+///////////////
+// Omar's part
+///////////////
 
-            
+// 8. Conditional Statements: If-Else
+matched_stmt:
+            IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
+            | non-if_stmt
+
+unmatched_stmt:
+            IF LP logic_expr RP LB stmts RB
+            | IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB
+
+// 9. Loops: While and For
+while_stmt: WHILE LP logic_expr RP LB stmts RB
+
+for_stmt: FOR LP declare_stmt end_stmt logic_expr end_stmt assign_stmt RP LB stmts RB
+
+// 10. Logic Expressions
+logic_expr: bool_value 
+            | logic_operation 
+            | comparison_operation
+
+logic_operation: logic_value
+                | logic_expr OR_OP logic_value
+
+logic_value: bool_factor
+            | logic_value AND_OP bool_factor
+
+bool_factor: bool_value
+            | bool_var
+            | LP comparison_operation RP
+            | LP logic_operation RP
+
+comparable: num_var
+            | num_value
+
+comparison_operation: comparable comparision_op comparable
+
+comparision_op: LESS_OP
+                | GREATER_OP
+                | EQUIVALENT_OP
+                | GREATER_EQ_OP
+                | LESS_EQ_OP
+                | NOT_EQ_OP
+
+// 11. Operators
+// nothing to define here
+
+////////////////
+// Ahmet's part
+////////////////
+/*--------------6-------*/
+input_stmt: INPUT LP inbody RP
+
+inbody: var
+
+input_from_connection: connect_var DOT INPUT_FROM_CONNECTION LP inbody RP
+
+output_stmt: PRINT LP outbody RP
+
+output_to_connection: connect_var DOT OUTPUT_TO_CONNECTION LP outbody RP
+
+read_from_sensor: READ_FROM_SENSOR LP sensor_name COMMA inbody RP
+
+sensor_name: IDENTIFIER
+
+time_from_timer: TIME_FROM_TIMER  LP int_var RP
+
+outbody: arithmetic_operation 
+    | values 
+    | var
+
+url: STRING
+
+
+/*--------------7----------*/
+
+connect_obj_creation: CONNECT_FUNC space connect_var ASSIGN_OP  NEW_INST space CONNECT_FUNC LP RP
+
+connect_stmt: connect_var DOT CONNECT_FUNC LP url RP
+
+get_connect_status: connect_var DOT GET_STATUS_FUNC LP status_var RP
+
+get_connect_protocol: connect_var DOT GET_PROTOCOL_FUNC LP protocol_var RP
+
+get_connect_URL:  connect_var DOT GET_URL_FUNC LP string_var RP 
+
+connect_var: identifier
+
+status_var: identifier
+
+protocol_var: identifier
+
+status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
+
+protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
