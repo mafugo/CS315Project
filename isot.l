@@ -118,7 +118,6 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {LP} { return (LP); }
 {RP} { return (RP); }
 {end_stmt} { return (END_STMT); }
-{colon} { return (COLON); }
 {comma} { return (COMMA); }
 {assign_op} { return (ASSIGN_OP); }
 {not_op} { return (NOT_OP); }
@@ -134,9 +133,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {mult_op} { return (MULT_OP); }
 {plus_op} { return (PLUS_OP); }
 {minus_op} { return (MINUS_OP); }
-{single_quote} { return (SINGLE_QUOTE); }
-{double_quote} { return (DOUBLE_QUOTE); }
-{new_line} { return (NEW_LINE); }
+{new_line} { /*return (NEW_LINE);*/ }
 {dot} { return (DOT); }
 {comment} { return (COMMENT); }
 {input} { return (INPUT); }

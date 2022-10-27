@@ -18,7 +18,6 @@
 %token LP
 %token RP
 %token END_STMT
-%token COLON
 %token COMMA
 %token ASSIGN_OP
 %token NOT_OP
@@ -34,9 +33,6 @@
 %token MULT_OP
 %token PLUS_OP
 %token MINUS_OP
-%token SINGLE_QUOTE
-%token DOUBLE_QUOTE
-%token NEW_LINE
 %token DOT
 %token COMMENT
 %token INPUT
@@ -72,15 +68,15 @@
 
 // Start Rule
 
-program: stmts
+program: PROG_START stmts PROG_END
 
 stmts: stmt | stmt stmts
 
-stmt: if_stmt | non-if_stmt
+stmt: if_stmt | non_if_stmt
 
 if_stmt: matched_stmt | unmatched_stmt
 
-non-if_stmt: 
+non_if_stmt: 
             assign_stmt END_STMT | 
             input_stmt END_STMT |
             output_stmt END_STMT |
@@ -94,7 +90,7 @@ non-if_stmt:
             CONTINUE END_STMT |
             RETURN END_STMT | 
             arithmetic_op END_STMT | 
-            comment | END_STMT | 
+            COMMENT | END_STMT | 
             while_stmt | for_stmt 
 
 // func definition and func call 
@@ -103,7 +99,7 @@ func_define: FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
 parameters: parameter | parameter parameters
 
 parameter:  // empty
-            | var_type space IDENTIFIER
+            | var_type SPACE IDENTIFIER
             
 
 func_body: RETURN END_STMT | stmts
@@ -158,7 +154,7 @@ num_value: INT | FLOAT | arithmetic_op | CHAR
 // 8. Conditional Statements: If-Else
 matched_stmt:
             IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
-            | non-if_stmt
+            | non_if_stmt
 
 unmatched_stmt:
             IF LP logic_expr RP LB stmts RB
@@ -170,9 +166,10 @@ while_stmt: WHILE LP logic_expr RP LB stmts RB
 for_stmt: FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
 // 10. Logic Expressions
-logic_expr: bool_value 
+logic_expr: BOOL 
             | logic_operation 
             | comparison_operation
+            | NOT_OP logic_expr
 
 logic_operation: logic_value
                 | logic_expr OR_OP logic_value
@@ -238,5 +235,7 @@ get_switch_state: GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
 
 %%
 #include "lex.yy.c"
-yyerror(char *s) { printf("%s", s); } main() {
+void yyerror(char *s) { printf("%s", s); } 
+
+int main() {
 return yyparse(); }
