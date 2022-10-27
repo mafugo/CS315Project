@@ -131,7 +131,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {div_op} { return (DIV_OP); }
 {mult_op} { return (MULT_OP); }
 {plus_op} { return (PLUS_OP); }
-{minus_op} { return (MINUS); }
+{minus_op} { return (MINUS_OP); }
 {single_quote} { return (SINGLE_QUOTE); }
 {double_quote} { return (DOUBLE_QUOTE); }
 {new_line} { return (NEW_LINE); }
