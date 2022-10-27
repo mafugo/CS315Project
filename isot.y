@@ -286,12 +286,20 @@ get_connect_protocol: connect_var DOT GET_PROTOCOL_FUNC LP protocol_var RP
 
 get_connect_URL:  connect_var DOT GET_URL_FUNC LP string_var RP 
 
-connect_var: identifier
+connect_var: IDENTIFIER
 
-status_var: identifier
+status_var: IDENTIFIER
 
-protocol_var: identifier
+protocol_var: IDENTIFIER
 
 status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
 
 protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
+
+
+//-----  14------
+
+turn_switch_on: TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP 
+turn_switch_off: TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP
+toggle_switch: TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP
+get_switch_state: GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
