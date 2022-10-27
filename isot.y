@@ -1,13 +1,3 @@
-%{
-#include <stdio.h>
-#include <stdlib.h>
-int yylex(void);
-void yyerror(char* s);
-extern int yylineno;
-%}
-
-%%
-
 %token INT
 %token FLOAT
 %token CHAR
@@ -102,33 +92,28 @@ non-if_stmt:
             declare_stmt END_STMT |
             BREAK END_STMT |
             CONTINUE END_STMT |
-            RETURN END_STMT| 
+            RETURN END_STMT | 
             arithmetic_op END_STMT | 
             comment | END_STMT | 
             while_stmt | for_stmt 
 
 // func definition and func call 
-func_define: func space func_var LP parameters RP LB func_body RB
+func_define: FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
 
 parameters: parameter | parameter parameters
 
 parameter:  // empty
-            | int space int_var
-            | float space float_var
-            | string space string_var
-            | bool space bool_var
-            | char space char_var
-            | status space status_var
-            | protocol space protocol_var
+            | var_type space IDENTIFIER
+            
 
-func_body: RETURN | stmts return_stmt
+func_body: RETURN END_STMT | stmts
 
-func_call: func_var LP variables RP 
 
-variables: var | var COMMA variables
+func_call: IDENTIFIER LP variables RP 
 
-var_types: int | float | string | char | bool | status | protocol
+variables: IDENTIFIER | IDENTIFIER COMMA variables
 
+var_type: INT_TYPE | FLOAT_TYPE | STRING_TYPE | CHAR_TYPE | BOOL_TYPE | STATUS_TYPE | PROTOCOL_TYPE
 
 // arithmetic operations
 arithmetic_op: 
@@ -140,34 +125,15 @@ numeric_value:  factor |
                 numeric_value MULT_OP factor |
                 numeric_value DIV_OP factor
 
-factor: int | float | int_var | float_var | LP arithmetic_op RP
-
-// data types
-int: INT
-float: FLOAT
-bool: BOOL
-char: CHAR
-string: STRING
+factor: INT | FLOAT | IDENTIFIER | LP arithmetic_op RP
 
 // declaration statements
-declare_stmt: int_declare
-            | float_declare
-            | str_declare
-            | char_declare
-            | bool_declare
-            | status_declare
-            | protocol_declare
-
-int_declare: INT_TYPE SPACE int_var | INT_TYPE SPACE int_assign
-float_declare: FLOAT_TYPE SPACE float_var | FLOAT_TYPE SPACE float_assign
-char_declare: CHAR_TYPE SPACE char_var | CHAR_TYPE SPACE char_assign
-str_declare: STRING_TYPE SPACE str_var | STRING_TYPE SPACE str_assign
-bool_declare: BOOL_TYPE SPACE bool_var | BOOL_TYPE SPACE bool_assign
-status_declare: STATUS_TYPE SPACE status_var | STATUS_TYPE SPACE status_assign
-protocol_declare: PROTOCOL_TYPE SPACE protocol_var | PROTOCOL_TYPE SPACE protocol_assign
+declare_stmt: var_type SPACE IDENTIFIER 
+| var_type SPACE assign_stmt
 
 // assignment statements
-assign_stmt: int_assign
+assign_stmt: IDENTIFIER ASSIGN_OP IDENTIFIER
+            | int_assign
             | float_assign
             | str_assign
             | char_assign
@@ -175,29 +141,15 @@ assign_stmt: int_assign
             | status_assign
             | protocol_assign
             
-int_assign: int_var ASSIGN_OP num_var
-            | int_var ASSIGN_OP num_value
-float_assign: float_var ASSIGN_OP float_var
-            | float_var ASSIGN_OP num_value
-char_assign: char_var ASSIGN_OP char
-str_assign: string_var ASSIGN_OP str_var
-bool_assign: bool_var ASSIGN_OP bool_value
-            | bool_var ASSIGN_OP logic_expr
-status_assign: status_var ASSIGN_OP status_var
-            | status_var ASSIGN_OP status_value
-protocol_assign: protocol_var ASSIGN_OP protocol_var
-            | protocol_var ASSIGN_OP protocol_value
+int_assign: IDENTIFIER ASSIGN_OP num_value
+float_assign:IDENTIFIER ASSIGN_OP num_value
+char_assign: IDENTIFIER ASSIGN_OP CHAR
+str_assign: IDENTIFIER ASSIGN_OP STRING
+bool_assign: IDENTIFIER ASSIGN_OP logic_expr
+status_assign: IDENTIFIER ASSIGN_OP STATUS
+protocol_assign: IDENTIFIER ASSIGN_OP PROTOCOL
 
-num_var: int_var | float_var
-num_value: int | float | arithmetic_op | alphanumeric
-
-bool_value: BOOL
-
-var: str_var | char_var |int_var 
-    | float_var | bool_var | 
-    | func_var | status_var
-    |protocol_var
-
+num_value: INT | FLOAT | arithmetic_op | CHAR
 
 ///////////////
 // Omar's part
@@ -215,7 +167,7 @@ unmatched_stmt:
 // 9. Loops: While and For
 while_stmt: WHILE LP logic_expr RP LB stmts RB
 
-for_stmt: FOR LP declare_stmt end_stmt logic_expr end_stmt assign_stmt RP LB stmts RB
+for_stmt: FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
 // 10. Logic Expressions
 logic_expr: bool_value 
@@ -228,12 +180,12 @@ logic_operation: logic_value
 logic_value: bool_factor
             | logic_value AND_OP bool_factor
 
-bool_factor: bool_value
-            | bool_var
+bool_factor: BOOL
+            | IDENTIFIER
             | LP comparison_operation RP
             | LP logic_operation RP
 
-comparable: num_var
+comparable: IDENTIFIER
             | num_value
 
 comparison_operation: comparable comparision_op comparable
@@ -248,55 +200,34 @@ comparision_op: LESS_OP
 // 11. Operators
 // nothing to define here
 
-////////////////
+// //////////////
 // Ahmet's part
-////////////////
-/*--------------6-------*/
-input_stmt: INPUT LP inbody RP
+// //////////////
+/* --------------6-------*/
+input_stmt: INPUT LP IDENTIFIER RP
 
-inbody: var
+input_from_connection: IDENTIFIER DOT INPUT_FROM_CONNECTION LP IDENTIFIER RP
 
-input_from_connection: connect_var DOT INPUT_FROM_CONNECTION LP inbody RP
+output_stmt: PRINT LP IDENTIFIER RP
 
-output_stmt: PRINT LP outbody RP
+output_to_connection: IDENTIFIER DOT OUTPUT_TO_CONNECTION LP IDENTIFIER RP
 
-output_to_connection: connect_var DOT OUTPUT_TO_CONNECTION LP outbody RP
+read_from_sensor: READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER RP
 
-read_from_sensor: READ_FROM_SENSOR LP sensor_name COMMA inbody RP
+time_from_timer: TIME_FROM_TIMER  LP IDENTIFIER RP
 
-sensor_name: IDENTIFIER
+// *--------------7----------*/
 
-time_from_timer: TIME_FROM_TIMER  LP int_var RP
+connect_obj_creation: CONNECTION_CLASS SPACE IDENTIFIER ASSIGN_OP NEW_INST SPACE CONNECTION_CONSTRUCTOR
 
-outbody: arithmetic_operation 
-    | values 
-    | var
-
+connect_stmt: IDENTIFIER DOT CONNECT_FUNC LP url RP
 url: STRING
 
+get_connect_status: IDENTIFIER DOT GET_STATUS_FUNC LP IDENTIFIER RP
 
-/*--------------7----------*/
+get_connect_protocol: IDENTIFIER DOT GET_PROTOCOL_FUNC LP IDENTIFIER RP
 
-connect_obj_creation: CONNECT_FUNC space connect_var ASSIGN_OP  NEW_INST space CONNECT_FUNC LP RP
-
-connect_stmt: connect_var DOT CONNECT_FUNC LP url RP
-
-get_connect_status: connect_var DOT GET_STATUS_FUNC LP status_var RP
-
-get_connect_protocol: connect_var DOT GET_PROTOCOL_FUNC LP protocol_var RP
-
-get_connect_URL:  connect_var DOT GET_URL_FUNC LP string_var RP 
-
-connect_var: IDENTIFIER
-
-status_var: IDENTIFIER
-
-protocol_var: IDENTIFIER
-
-status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
-
-protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
-
+get_connect_URL:  IDENTIFIER DOT GET_URL_FUNC LP IDENTIFIER RP 
 
 //-----  14------
 
