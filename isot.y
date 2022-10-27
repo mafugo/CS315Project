@@ -1,3 +1,13 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+int yylex(void);
+void yyerror(char* s);
+extern int yylineno;
+%}
+
+%%
+
 %token INT
 %token FLOAT
 %token CHAR
@@ -33,7 +43,7 @@
 %token DIV_OP
 %token MULT_OP
 %token PLUS_OP
-%token MINUS
+%token MINUS_OP
 %token SINGLE_QUOTE
 %token DOUBLE_QUOTE
 %token NEW_LINE
@@ -67,8 +77,6 @@
 %token PROG_START
 %token PROG_END
 %token IDENTIFIER
-
-
 %%
 
 // Start Rule
@@ -93,15 +101,166 @@ non-if_stmt:
             declare_stmt end_stmt |
             break_stmt end_stmt |
             continue_stmt end_stmt |
+            return_stmt end_stmt| 
             arithmetic_op end_stmt | 
             comment | end_stmt | 
-            while_stmt | for_stmt
+            while_stmt | for_stmt 
 
-// //////////////////
+// func definition and func call 
+func_define: func space func_var LP parameters RP LB func_body RB
+
+parameters: parameter | parameter parameters
+
+parameter:  // empty
+            | int space int_var
+            | float space float_var
+            | string space string_var
+            | bool space bool_var
+            | char space char_var
+            | status space status_var
+            | protocol space protocol_var
+
+func_body: return_stmt | stmts return_stmt
+
+func_call: func_var LP variables RP 
+
+variables: var | var COMMA variables
+
+var_types: int | float | string | char | bool | status | protocol
+
+// continue- break return & end statements 
 continue_stmt: CONTINUE
 
+break_stmt: BREAK
+
+return_stmt: RETURN
+
+end_stmt: END_STMT
+
+// comment 
+comment: COMMENT
+
+// arithmetic operations
+arithmetic_op: 
+                numeric_value | 
+                arithmetic_op PLUS_OP numeric_value |
+                arithmetic_op MINUS_OP numeric_value |
+
+numeric_value:  factor | 
+                numeric_value MULT_OP factor |
+                numeric_value DIV_OP factor
+
+factor: int | float | int_var | float_var | LP arithmetic_op RP
+
+// data types
+int: INT
+float: FLOAT
+bool: BOOL
+char: CHAR
+string: STRING
+
+// declaration statements
+declare_stmt: int_declare
+            | float_declare
+            | str_declare
+            | char_declare
+            | bool_declare
+            | status_declare
+            | protocol_declare
+
+int_declare: int space int_var | int space int_assign
+float_declare: float space float_var | float space float_assign
+char_declare: char space char_var | char space char_assign
+str_declare: string space str_var | string space str_assign
+bool_declare: bool space bool_var | bool space bool_assign
+status_declare: status space status_var | status space status_assign
+protocol_declare: protocol space protocol_var | protocol space protocol_assign
+
+// assignment statements
+assign_stmt: int_assign
+            | float_assign
+            | str_assign
+            | char_assign
+            | bool_assign
+            | status_assign
+            | protocol_assign
+            
+int_assign: int_var ASSIGN_OP num_var
+            | int_var ASSIGN_OP num_value
+float_assign: float_var ASSIGN_OP float_var
+            | float_var ASSIGN_OP num_value
+char_assign: char_var ASSIGN_OP char
+str_assign: string_var ASSIGN_OP str_var
+bool_assign: bool_var ASSIGN_OP bool_value
+            | bool_var ASSIGN_OP logic_expr
+status_assign: status_var ASSIGN_OP status_var
+            | status_var ASSIGN_OP status_value
+protocol_assign: protocol_var ASSIGN_OP protocol_var
+            | protocol_var ASSIGN_OP protocol_value
+
+num_var: int_var | float_var
+num_value: int | float | arithmetic_op | alphanumeric
+
+bool_value: BOOL
+
+var: str_var | char_var |int_var 
+    | float_var | bool_var | 
+    | func_var | status_var
+    |protocol_var
 
 
+///////////////
+// Omar's part
+///////////////
+
+// 8. Conditional Statements: If-Else
+matched_stmt:
+            IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
+            | non-if_stmt
+
+unmatched_stmt:
+            IF LP logic_expr RP LB stmts RB
+            | IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB
+
+// 9. Loops: While and For
+while_stmt: WHILE LP logic_expr RP LB stmts RB
+
+for_stmt: FOR LP declare_stmt end_stmt logic_expr end_stmt assign_stmt RP LB stmts RB
+
+// 10. Logic Expressions
+logic_expr: bool_value 
+            | logic_operation 
+            | comparison_operation
+
+logic_operation: logic_value
+                | logic_expr OR_OP logic_value
+
+logic_value: bool_factor
+            | logic_value AND_OP bool_factor
+
+bool_factor: bool_value
+            | bool_var
+            | LP comparison_operation RP
+            | LP logic_operation RP
+
+comparable: num_var
+            | num_value
+
+comparison_operation: comparable comparision_op comparable
+
+comparision_op: LESS_OP
+                | GREATER_OP
+                | EQUIVALENT_OP
+                | GREATER_EQ_OP
+                | LESS_EQ_OP
+                | NOT_EQ_OP
+
+// 11. Operators
+// nothing to define here
+
+////////////////
+// Ahmet's part
+////////////////
 /*--------------6-------*/
 input_stmt: INPUT LP inbody RP
 
@@ -138,11 +297,11 @@ get_connect_protocol: connect_var DOT GET_PROTOCOL_FUNC LP protocol_var RP
 
 get_connect_URL:  connect_var DOT GET_URL_FUNC LP string_var RP 
 
-connect_var: identifier
+connect_var: IDENTIFIER
 
-status_var: identifier
+status_var: IDENTIFIER
 
-protocol_var: identifier
+protocol_var: IDENTIFIER
 
 status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
 
@@ -151,10 +310,7 @@ protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
 
 //-----  14------
 
-turn_switch_on: turn_switch_on LP switch_name RP 
-turn_switch_off: turn_switch_off LP switch_name RP
-toggle_switch: toggle_switch LP switch_name RP
-get_switch_state: get_switch_state LP switch_name COMMA identifier RP
-switch_name: SWITCH_NAME
-
-
+turn_switch_on: TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP 
+turn_switch_off: TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP
+toggle_switch: TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP
+get_switch_state: GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
