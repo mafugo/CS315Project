@@ -111,5 +111,51 @@ non-if_stmt:
 continue_stmt: CONTINUE
 
 
+///////////////
+// Omar's part
+///////////////
 
-            
+// 8. Conditional Statements: If-Else
+matched_stmt:
+            IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
+            | non-if_stmt
+
+unmatched_stmt:
+            IF LP logic_expr RP LB stmts RB
+            | IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB
+
+// 9. Loops: While and For
+while_stmt: WHILE LP logic_expr RP LB stmts RB
+
+for_stmt: FOR LP declare_stmt end_stmt logic_expr end_stmt assign_stmt RP LB stmts RB
+
+// 10. Logic Expressions
+logic_expr: bool_value 
+            | logic_operation 
+            | comparison_operation
+
+logic_operation: logic_value
+                | logic_expr OR_OP logic_value
+
+logic_value: bool_factor
+            | logic_value AND_OP bool_factor
+
+bool_factor: bool_value
+            | bool_var
+            | LP comparison_operation RP
+            | LP logic_operation RP
+
+comparable: num_var
+            | num_value
+
+comparison_operation: comparable comparision_op comparable
+
+comparision_op: LESS_OP
+                | GREATER_OP
+                | EQUIVALENT_OP
+                | GREATER_EQ_OP
+                | LESS_EQ_OP
+                | NOT_EQ_OP
+
+// 11. Operators
+// nothing to define here
