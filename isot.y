@@ -1,13 +1,3 @@
-%{
-#include <stdio.h>
-#include <stdlib.h>
-int yylex(void);
-void yyerror(char* s);
-extern int yylineno;
-%}
-
-%%
-
 %token INT
 %token FLOAT
 %token CHAR
@@ -112,4 +102,48 @@ continue_stmt: CONTINUE
 
 
 
-            
+/*--------------6-------*/
+input_stmt: INPUT LP inbody RP
+
+inbody: var
+
+input_from_connection: connect_var DOT INPUT_FROM_CONNECTION LP inbody RP
+
+output_stmt: PRINT LP outbody RP
+
+output_to_connection: connect_var DOT OUTPUT_TO_CONNECTION LP outbody RP
+
+read_from_sensor: READ_FROM_SENSOR LP sensor_name COMMA inbody RP
+
+sensor_name: IDENTIFIER
+
+time_from_timer: TIME_FROM_TIMER  LP int_var RP
+
+outbody: arithmetic_operation 
+    | values 
+    | var
+
+url: STRING
+
+
+/*--------------7----------*/
+
+connect_obj_creation: CONNECT_FUNC space connect_var ASSIGN_OP  NEW_INST space CONNECT_FUNC LP RP
+
+connect_stmt: connect_var DOT CONNECT_FUNC LP url RP
+
+get_connect_status: connect_var DOT GET_STATUS_FUNC LP status_var RP
+
+get_connect_protocol: connect_var DOT GET_PROTOCOL_FUNC LP protocol_var RP
+
+get_connect_URL:  connect_var DOT GET_URL_FUNC LP string_var RP 
+
+connect_var: identifier
+
+status_var: identifier
+
+protocol_var: identifier
+
+status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
+
+protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
