@@ -147,3 +147,14 @@ protocol_var: identifier
 status_value: STATUS //connected | connecting | disconnected | host_not_found | connection_timeout 
 
 protocol_value: PROTOCOL_TYPE //http | https | tcp | ftp | tftp
+
+
+//-----  14------
+
+turn_switch_on: turn_switch_on LP switch_name RP 
+turn_switch_off: turn_switch_off LP switch_name RP
+toggle_switch: toggle_switch LP switch_name RP
+get_switch_state: get_switch_state LP switch_name COMMA identifier RP
+switch_name: SWITCH_NAME
+
+
