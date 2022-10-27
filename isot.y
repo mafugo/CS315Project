@@ -304,3 +304,8 @@ turn_switch_on: TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP
 turn_switch_off: TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP
 toggle_switch: TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP
 get_switch_state: GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
+
+%%
+#include "lex.yy.c"
+yyerror(char *s) { printf("%s", s); } main() {
+return yyparse(); }

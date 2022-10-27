@@ -1,4 +1,3 @@
-%option main
 LP "("
 RP ")"
 LB "{"
@@ -170,3 +169,5 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {identifier} { return (IDENTIFIER); }
 . ;
 %%
+
+int yywrap() { return 1; }
