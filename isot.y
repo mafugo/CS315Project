@@ -1,3 +1,13 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+int yylex(void);
+void yyerror(char* s);
+extern int yylineno;
+%}
+
+%%
+
 %token INT
 %token FLOAT
 %token CHAR
@@ -67,3 +77,39 @@
 %token PROG_START
 %token PROG_END
 %token IDENTIFIER
+
+
+%%
+
+// Start Rule
+
+program: stmts
+
+stmts: stmt | stmt stmts
+
+stmt: if_stmt | non-if_stmt
+
+if_stmt: matched_stmt | unmatched_stmt
+
+non-if_stmt: 
+            assign_stmt end_stmt | 
+            input_stmt end_stmt |
+            output_stmt end_stmt |
+            func_define |
+            func_call end_stmt |
+            read_from_sensor end_stmt |
+            time_from_timer end_stmt |
+            connect_stmt end_stmt |
+            declare_stmt end_stmt |
+            break_stmt end_stmt |
+            continue_stmt end_stmt |
+            arithmetic_op end_stmt | 
+            comment | end_stmt | 
+            while_stmt | for_stmt
+
+// //////////////////
+continue_stmt: CONTINUE
+
+
+
+            
