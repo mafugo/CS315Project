@@ -25,7 +25,9 @@ not_eq_op "!="
 not_op "!"
 assign_op "="
 hashtag "#"
-space " "
+aspace " "
+space aspace*
+
 
 int_type "int"
 float_type "float"
@@ -110,6 +112,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {break} { return (BREAK); }
 {continue} { return (CONTINUE); }
 {return} { return (RETURN); }
+{space} {return (SPACE);}
 {for} { return (FOR); }
 {LB} { return (LB); }
 {RB} { return (RB); }
