@@ -168,13 +168,13 @@ declare_stmt: int_declare
             | status_declare
             | protocol_declare
 
-int_declare: int space int_var | int space int_assign
-float_declare: float space float_var | float space float_assign
-char_declare: char space char_var | char space char_assign
-str_declare: string space str_var | string space str_assign
-bool_declare: bool space bool_var | bool space bool_assign
-status_declare: status space status_var | status space status_assign
-protocol_declare: protocol space protocol_var | protocol space protocol_assign
+int_declare: INT_TYPE space int_var | INT_TYPE space int_assign
+float_declare: FLOAT_TYPE space float_var | FLOAT_TYPE space float_assign
+char_declare: CHAR_TYPE space char_var | CHAR_TYPE space char_assign
+str_declare: STRING_TYPE space str_var | STRING_TYPE space str_assign
+bool_declare: BOOL_TYPE space bool_var | BOOL_TYPE space bool_assign
+status_declare: STATUS_TYPE space status_var | STATUS_TYPE space status_assign
+protocol_declare: PROTOCOL_TYPE space protocol_var | PROTOCOL_TYPE space protocol_assign
 
 // assignment statements
 assign_stmt: int_assign
