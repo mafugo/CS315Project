@@ -90,20 +90,20 @@ stmt: if_stmt | non-if_stmt
 if_stmt: matched_stmt | unmatched_stmt
 
 non-if_stmt: 
-            assign_stmt end_stmt | 
-            input_stmt end_stmt |
-            output_stmt end_stmt |
+            assign_stmt END_STMT | 
+            input_stmt END_STMT |
+            output_stmt END_STMT |
             func_define |
-            func_call end_stmt |
-            read_from_sensor end_stmt |
-            time_from_timer end_stmt |
-            connect_stmt end_stmt |
-            declare_stmt end_stmt |
-            break_stmt end_stmt |
-            continue_stmt end_stmt |
-            return_stmt end_stmt| 
-            arithmetic_op end_stmt | 
-            comment | end_stmt | 
+            func_call END_STMT |
+            read_from_sensor END_STMT |
+            time_from_timer END_STMT |
+            connect_stmt END_STMT |
+            declare_stmt END_STMT |
+            BREAK END_STMT |
+            CONTINUE END_STMT |
+            RETURN END_STMT| 
+            arithmetic_op END_STMT | 
+            comment | END_STMT | 
             while_stmt | for_stmt 
 
 // func definition and func call 
@@ -120,7 +120,7 @@ parameter:  // empty
             | status space status_var
             | protocol space protocol_var
 
-func_body: return_stmt | stmts return_stmt
+func_body: RETURN | stmts return_stmt
 
 func_call: func_var LP variables RP 
 
@@ -128,17 +128,6 @@ variables: var | var COMMA variables
 
 var_types: int | float | string | char | bool | status | protocol
 
-// continue- break return & end statements 
-continue_stmt: CONTINUE
-
-break_stmt: BREAK
-
-return_stmt: RETURN
-
-end_stmt: END_STMT
-
-// comment 
-comment: COMMENT
 
 // arithmetic operations
 arithmetic_op: 
