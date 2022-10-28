@@ -124,7 +124,9 @@ numeric_value:  factor |
                 numeric_value MULT_OP factor |
                 numeric_value DIV_OP factor
 
-factor: INT | FLOAT | IDENTIFIER | LP arithmetic_op RP
+factor: val
+        | IDENTIFIER 
+        | LP arithmetic_op RP
 
 // declaration statements
 declare_stmt: var_type SPACE IDENTIFIER 
@@ -148,8 +150,11 @@ bool_assign: IDENTIFIER ASSIGN_OP logic_expr
 status_assign: IDENTIFIER ASSIGN_OP STATUS
 protocol_assign: IDENTIFIER ASSIGN_OP PROTOCOL
 
-num_value: INT | FLOAT | arithmetic_op | CHAR
+num_value:  val 
+        | arithmetic_op 
+        | CHAR
 
+val: INT | FLOAT
 ///////////////
 // Omar's part
 ///////////////
