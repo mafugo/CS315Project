@@ -112,10 +112,9 @@ variables: IDENTIFIER | IDENTIFIER COMMA variables
 var_type: INT_TYPE | FLOAT_TYPE | STRING_TYPE | CHAR_TYPE | BOOL_TYPE | STATUS_TYPE | PROTOCOL_TYPE
 
 // arithmetic operations
-arithmetic_op: 
-                numeric_value | 
-                arithmetic_op PLUS_OP numeric_value |
-                arithmetic_op MINUS_OP numeric_value |
+arithmetic_op: numeric_value
+                | arithmetic_op PLUS_OP numeric_value
+                | arithmetic_op MINUS_OP numeric_value
 
 numeric_value:  factor | 
                 numeric_value MULT_OP factor |
