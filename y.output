@@ -103,7 +103,7 @@
 
   75  for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
-  76  logic_expr : BOOL
+  76  logic_expr : bool_factor
   77             | logic_operation
   78             | comparison_operation
   79             | NOT_OP logic_expr
@@ -683,10 +683,10 @@ state 54
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
-	logic_operation  goto 95
-	comparison_operation  goto 96
-	logic_value  goto 97
-	bool_factor  goto 98
+	bool_factor  goto 95
+	logic_operation  goto 96
+	comparison_operation  goto 97
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -710,10 +710,10 @@ state 55
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
-	logic_operation  goto 95
-	comparison_operation  goto 96
-	logic_value  goto 97
-	bool_factor  goto 98
+	bool_factor  goto 95
+	logic_operation  goto 96
+	comparison_operation  goto 97
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -840,10 +840,10 @@ state 68
 	factor  goto 45
 	val  goto 93
 	num_value  goto 116
-	logic_operation  goto 95
-	comparison_operation  goto 96
-	logic_value  goto 97
-	bool_factor  goto 98
+	bool_factor  goto 95
+	logic_operation  goto 96
+	comparison_operation  goto 97
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -997,17 +997,10 @@ state 86
 	.  reduce 71
 
 
-87: reduce/reduce conflict (reduce 76, reduce 84) on RP
-87: reduce/reduce conflict (reduce 76, reduce 84) on END_STMT
-87: reduce/reduce conflict (reduce 76, reduce 84) on OR_OP
 state 87
-	logic_expr : BOOL .  (76)
 	bool_factor : BOOL .  (84)
 
-	RP  reduce 76
-	END_STMT  reduce 76
-	OR_OP  reduce 76
-	AND_OP  reduce 84
+	.  reduce 84
 
 
 state 88
@@ -1030,10 +1023,10 @@ state 88
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
+	bool_factor  goto 95
 	logic_operation  goto 126
 	comparison_operation  goto 127
-	logic_value  goto 97
-	bool_factor  goto 98
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -1055,10 +1048,10 @@ state 89
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
-	logic_operation  goto 95
-	comparison_operation  goto 96
-	logic_value  goto 97
-	bool_factor  goto 98
+	bool_factor  goto 95
+	logic_operation  goto 96
+	comparison_operation  goto 97
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -1139,19 +1132,32 @@ state 94
 	.  reduce 89
 
 
+95: reduce/reduce conflict (reduce 76, reduce 82) on RP
+95: reduce/reduce conflict (reduce 76, reduce 82) on END_STMT
+95: reduce/reduce conflict (reduce 76, reduce 82) on OR_OP
 state 95
+	logic_expr : bool_factor .  (76)
+	logic_value : bool_factor .  (82)
+
+	RP  reduce 76
+	END_STMT  reduce 76
+	OR_OP  reduce 76
+	AND_OP  reduce 82
+
+
+state 96
 	logic_expr : logic_operation .  (77)
 
 	.  reduce 77
 
 
-state 96
+state 97
 	logic_expr : comparison_operation .  (78)
 
 	.  reduce 78
 
 
-state 97
+state 98
 	logic_operation : logic_value .  (80)
 	logic_value : logic_value . AND_OP bool_factor  (83)
 
@@ -1159,12 +1165,6 @@ state 97
 	RP  reduce 80
 	END_STMT  reduce 80
 	OR_OP  reduce 80
-
-
-state 98
-	logic_value : bool_factor .  (82)
-
-	.  reduce 82
 
 
 state 99
@@ -1487,21 +1487,21 @@ state 129
 state 130
 	logic_operation : logic_expr OR_OP . logic_value  (81)
 
-	BOOL  shift 152
-	LP  shift 153
-	IDENTIFIER  shift 154
+	BOOL  shift 87
+	LP  shift 152
+	IDENTIFIER  shift 153
 	.  error
 
+	bool_factor  goto 154
 	logic_value  goto 155
-	bool_factor  goto 98
 
 
 state 131
 	logic_value : logic_value AND_OP . bool_factor  (83)
 
-	BOOL  shift 152
-	LP  shift 153
-	IDENTIFIER  shift 154
+	BOOL  shift 87
+	LP  shift 152
+	IDENTIFIER  shift 153
 	.  error
 
 	bool_factor  goto 156
@@ -1588,10 +1588,10 @@ state 140
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
-	logic_operation  goto 95
-	comparison_operation  goto 96
-	logic_value  goto 97
-	bool_factor  goto 98
+	bool_factor  goto 95
+	logic_operation  goto 96
+	comparison_operation  goto 97
+	logic_value  goto 98
 	comparable  goto 99
 
 
@@ -1740,12 +1740,6 @@ state 151
 
 
 state 152
-	bool_factor : BOOL .  (84)
-
-	.  reduce 84
-
-
-state 153
 	bool_factor : LP . comparison_operation RP  (86)
 	bool_factor : LP . logic_operation RP  (87)
 
@@ -1764,17 +1758,23 @@ state 153
 	factor  goto 45
 	val  goto 93
 	num_value  goto 94
+	bool_factor  goto 95
 	logic_operation  goto 126
 	comparison_operation  goto 127
-	logic_value  goto 97
-	bool_factor  goto 98
+	logic_value  goto 98
 	comparable  goto 99
 
 
-state 154
+state 153
 	bool_factor : IDENTIFIER .  (85)
 
 	.  reduce 85
+
+
+state 154
+	logic_value : bool_factor .  (82)
+
+	.  reduce 82
 
 
 state 155
@@ -2368,9 +2368,9 @@ Rules never reduced:
 	get_switch_state : GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP  (112)
 
 
-State 87 contains 3 reduce/reduce conflicts.
 State 90 contains 7 reduce/reduce conflicts.
 State 93 contains 9 reduce/reduce conflicts.
+State 95 contains 3 reduce/reduce conflicts.
 State 110 contains 2 reduce/reduce conflicts.
 State 114 contains 10 reduce/reduce conflicts.
 State 116 contains 2 reduce/reduce conflicts.
