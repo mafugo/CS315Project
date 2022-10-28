@@ -64,6 +64,7 @@
 %token PROG_END
 %token IDENTIFIER
 %token SPACE
+%token EMPTY
 %%
 
 // Start Rule
@@ -102,8 +103,7 @@ func_define: FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
 
 parameters: parameter | parameter parameters
 
-parameter:  // empty
-            | var_type SPACE IDENTIFIER
+parameter: var_type SPACE IDENTIFIER | EMPTY
             
 
 func_body: RETURN END_STMT | stmts

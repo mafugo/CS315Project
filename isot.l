@@ -27,6 +27,7 @@ hashtag "#"
 aspace " "
 space aspace+
 
+empty "empty"
 
 int_type "int"
 float_type "float"
@@ -135,6 +136,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {minus_op} { return (MINUS_OP); }
 {new_line} { /*return (NEW_LINE);*/ }
 {dot} { return (DOT); }
+{empty} {return(EMPTY);}
 {comment} { return (COMMENT); }
 {input} { return (INPUT); }
 {input_from_connection} { return (INPUT_FROM_CONNECTION); }
