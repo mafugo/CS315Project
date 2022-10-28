@@ -91,7 +91,7 @@ matched_stmt: IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
             | declare_stmt END_STMT 
             | BREAK END_STMT 
             | CONTINUE END_STMT 
-//          | RETURN END_STMT 
+            | RETURN END_STMT   
             | arithmetic_op END_STMT 
             | COMMENT 
             | END_STMT 
@@ -99,14 +99,11 @@ matched_stmt: IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
             | for_stmt
 
 // func definition and func call 
-func_define: FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
+func_define: FUNC SPACE IDENTIFIER LP parameters RP LB stmts RB
 
 parameters: parameter | parameter parameters
 
 parameter: var_type SPACE IDENTIFIER | EMPTY
-            
-
-func_body: RETURN END_STMT | stmts
 
 
 func_call: IDENTIFIER LP variables RP 
