@@ -128,8 +128,6 @@ numeric_value:  num_value |
 num_value:  INT 
         | FLOAT
         | LP arithmetic_op RP
-        | CHAR
-
 
 // declaration statements
 declare_stmt: var_type SPACE IDENTIFIER 
