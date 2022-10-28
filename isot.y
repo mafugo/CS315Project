@@ -162,8 +162,7 @@ while_stmt: WHILE LP logic_expr RP LB stmts RB
 for_stmt: FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
 // 10. Logic Expressions
-logic_expr: bool_factor 
-            | logic_operation 
+logic_expr: logic_operation 
             | comparison_operation
             | NOT_OP logic_expr
             | IDENTIFIER
