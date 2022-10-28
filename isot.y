@@ -135,16 +135,14 @@ declare_stmt: var_type SPACE IDENTIFIER
 
 // assignment statements
 assign_stmt: IDENTIFIER ASSIGN_OP IDENTIFIER
-            | int_assign
-            | float_assign
+            | IDENTIFIER ASSIGN_OP num_value
             | str_assign
             | char_assign
             | bool_assign
             | status_assign
             | protocol_assign
             
-int_assign: IDENTIFIER ASSIGN_OP num_value
-float_assign:IDENTIFIER ASSIGN_OP num_value
+
 char_assign: IDENTIFIER ASSIGN_OP CHAR
 str_assign: IDENTIFIER ASSIGN_OP STRING
 bool_assign: IDENTIFIER ASSIGN_OP logic_expr_wout_id
