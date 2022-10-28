@@ -91,7 +91,7 @@ matched_stmt: IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
             | declare_stmt END_STMT 
             | BREAK END_STMT 
             | CONTINUE END_STMT 
-            | RETURN END_STMT 
+//          | RETURN END_STMT 
             | arithmetic_op END_STMT 
             | COMMENT 
             | END_STMT 
