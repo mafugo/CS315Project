@@ -124,8 +124,10 @@ numeric_value:  factor |
                 numeric_value MULT_OP factor |
                 numeric_value DIV_OP factor
 
+id: IDENTIFIER
+
 factor: val
-        | IDENTIFIER 
+        | id
         | LP arithmetic_op RP
 
 // declaration statements
@@ -177,11 +179,11 @@ logic_value: bool_factor
             | logic_value AND_OP bool_factor
 
 bool_factor: BOOL
-            | IDENTIFIER
+            | id
             | LP comparison_operation RP
             | LP logic_operation RP
 
-comparable: IDENTIFIER
+comparable: id
             | num_value
 
 comparison_operation: comparable comparision_op comparable
