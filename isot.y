@@ -120,15 +120,16 @@ arithmetic_op: numeric_value
                 | arithmetic_op PLUS_OP numeric_value
                 | arithmetic_op MINUS_OP numeric_value
 
-numeric_value:  factor | 
-                numeric_value MULT_OP factor |
-                numeric_value DIV_OP factor
+numeric_value:  num_value | 
+                numeric_value MULT_OP num_value |
+                numeric_value DIV_OP num_value
 
-// id: IDENTIFIER
 
-factor: val
-      //  | id
+num_value:  INT 
+        | FLOAT
         | LP arithmetic_op RP
+        | CHAR
+
 
 // declaration statements
 declare_stmt: var_type SPACE IDENTIFIER 
@@ -152,14 +153,8 @@ bool_assign: IDENTIFIER ASSIGN_OP logic_expr
 status_assign: IDENTIFIER ASSIGN_OP STATUS
 protocol_assign: IDENTIFIER ASSIGN_OP PROTOCOL
 
-num_value:  val 
-        | arithmetic_op 
-        | CHAR
 
-val: INT | FLOAT
-///////////////
-// Omar's part
-///////////////
+
 
 // 9. Loops: While and For
 while_stmt: WHILE LP logic_expr RP LB stmts RB
@@ -180,14 +175,10 @@ logic_value: bool_factor
             | logic_value AND_OP bool_factor
 
 bool_factor: BOOL
-//            | id
             | LP comparison_operation RP
             | LP logic_operation RP
 
-comparable:// id
-            | num_value
-
-comparison_operation: comparable comparision_op comparable
+comparison_operation: num_value comparision_op num_value
 
 comparision_op: LESS_OP
                 | GREATER_OP
