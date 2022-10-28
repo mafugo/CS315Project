@@ -79,15 +79,15 @@ matched_stmts: matched_stmt | matched_stmt matched_stmts
 
 unmatched_stmts: unmatched_stmt | unmatched_stmt unmatched_stmts
 
-unmatched_stmt: IF LP logic_expr RP LB unmatched_stmt RB
-            | IF LP logic_expr RP LB matched_stmt RB trial
+unmatched_stmt: IF LP logic_expr RP LB unmatched_stmts RB
+            | IF LP logic_expr RP LB matched_stmts RB trial
 
 
 
             
-trial: ELSE LB unmatched_stmt RB | ;
+trial: ELSE LB unmatched_stmts RB | ;
 
-matched_stmt: IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB 
+matched_stmt: IF LP logic_expr RP LB matched_stmts RB ELSE LB matched_stmts RB 
             | assign_stmt END_STMT 
             | input_stmt END_STMT 
             | output_stmt END_STMT 
