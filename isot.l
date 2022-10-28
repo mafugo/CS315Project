@@ -25,7 +25,7 @@ not_op "!"
 assign_op "="
 hashtag "#"
 aspace " "
-space aspace+
+space {aspace}+
 
 empty "empty"
 

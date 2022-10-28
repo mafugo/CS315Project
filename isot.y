@@ -65,6 +65,8 @@
 %token IDENTIFIER
 %token SPACE
 %token EMPTY
+
+%start program
 %%
 
 // Start Rule
