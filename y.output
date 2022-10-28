@@ -8,151 +8,156 @@
    4  stmt : matched_stmt
    5       | unmatched_stmt
 
-   6  unmatched_stmt :
-					 | IF LP logic_expr RP LB matched_stmt RB
-					 | IF LP logic_expr RP LB unmatched_stmt RB
-   					 //|IF LP logic_expr RP LB stmts RB
-   7                 | IF LP logic_expr RP LB matched_stmt RB trial
-		
-	 trial: ELSE LB unmatched_stmt RB | ;
-   8  matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
-   9               | assign_stmt END_STMT
-  10               | input_stmt END_STMT
-  11               | output_stmt END_STMT
-  12               | func_define
-  13               | func_call END_STMT
-  14               | read_from_sensor END_STMT
-  15               | time_from_timer END_STMT
-  16               | connect_stmt END_STMT
-  17               | declare_stmt END_STMT
-  18               | BREAK END_STMT
-  19               | CONTINUE END_STMT
-  20               | arithmetic_op END_STMT
-  21               | COMMENT
-  22               | END_STMT
-  23               | while_stmt
-  24               | for_stmt
+   6  matched_stmts : matched_stmt
+   7                | matched_stmt matched_stmts
 
-  25  func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
+   8  unmatched_stmts : unmatched_stmt
+   9                  | unmatched_stmt unmatched_stmts
 
-  26  parameters : parameter
-  27             | parameter parameters
+  10  unmatched_stmt : IF LP logic_expr RP LB unmatched_stmt RB
+  11                 | IF LP logic_expr RP LB matched_stmt RB trial
 
-  28  parameter : var_type SPACE IDENTIFIER
-  29            | EMPTY
+  12  trial : ELSE LB unmatched_stmt RB
+  13        |
 
-  30  func_body : RETURN END_STMT
-  31            | stmts
+  14  matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
+  15               | assign_stmt END_STMT
+  16               | input_stmt END_STMT
+  17               | output_stmt END_STMT
+  18               | func_define
+  19               | func_call END_STMT
+  20               | read_from_sensor END_STMT
+  21               | time_from_timer END_STMT
+  22               | connect_stmt END_STMT
+  23               | declare_stmt END_STMT
+  24               | BREAK END_STMT
+  25               | CONTINUE END_STMT
+  26               | arithmetic_op END_STMT
+  27               | COMMENT
+  28               | END_STMT
+  29               | while_stmt
+  30               | for_stmt
 
-  32  func_call : IDENTIFIER LP variables RP
+  31  func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
 
-  33  variables : IDENTIFIER
-  34            | IDENTIFIER COMMA variables
+  32  parameters : parameter
+  33             | parameter parameters
 
-  35  var_type : INT_TYPE
-  36           | FLOAT_TYPE
-  37           | STRING_TYPE
-  38           | CHAR_TYPE
-  39           | BOOL_TYPE
-  40           | STATUS_TYPE
-  41           | PROTOCOL_TYPE
+  34  parameter : var_type SPACE IDENTIFIER
+  35            | EMPTY
 
-  42  arithmetic_op : numeric_value
-  43                | arithmetic_op PLUS_OP numeric_value
-  44                | arithmetic_op MINUS_OP numeric_value
+  36  func_body : RETURN END_STMT
+  37            | stmts
 
-  45  numeric_value : num_value
-  46                | numeric_value MULT_OP num_value
-  47                | numeric_value DIV_OP num_value
+  38  func_call : IDENTIFIER LP variables RP
 
-  48  num_value : INT
-  49            | FLOAT
-  50            | LP arithmetic_op RP
+  39  variables : IDENTIFIER
+  40            | IDENTIFIER COMMA variables
 
-  51  declare_stmt : var_type SPACE IDENTIFIER
-  52               | var_type SPACE assign_stmt
+  41  var_type : INT_TYPE
+  42           | FLOAT_TYPE
+  43           | STRING_TYPE
+  44           | CHAR_TYPE
+  45           | BOOL_TYPE
+  46           | STATUS_TYPE
+  47           | PROTOCOL_TYPE
 
-  53  assign_stmt : IDENTIFIER ASSIGN_OP IDENTIFIER
-  54              | IDENTIFIER ASSIGN_OP num_value
-  55              | str_assign
-  56              | char_assign
-  57              | bool_assign
-  58              | status_assign
-  59              | protocol_assign
+  48  arithmetic_op : numeric_value
+  49                | arithmetic_op PLUS_OP numeric_value
+  50                | arithmetic_op MINUS_OP numeric_value
 
-  60  char_assign : IDENTIFIER ASSIGN_OP CHAR
+  51  numeric_value : num_value
+  52                | numeric_value MULT_OP num_value
+  53                | numeric_value DIV_OP num_value
 
-  61  str_assign : IDENTIFIER ASSIGN_OP STRING
+  54  num_value : INT
+  55            | FLOAT
+  56            | LP arithmetic_op RP
 
-  62  bool_assign : IDENTIFIER ASSIGN_OP logic_expr_wout_id
+  57  declare_stmt : var_type SPACE IDENTIFIER
+  58               | var_type SPACE assign_stmt
 
-  63  status_assign : IDENTIFIER ASSIGN_OP STATUS
+  59  assign_stmt : IDENTIFIER ASSIGN_OP IDENTIFIER
+  60              | IDENTIFIER ASSIGN_OP num_value
+  61              | str_assign
+  62              | char_assign
+  63              | bool_assign
+  64              | status_assign
+  65              | protocol_assign
 
-  64  protocol_assign : IDENTIFIER ASSIGN_OP PROTOCOL
+  66  char_assign : IDENTIFIER ASSIGN_OP CHAR
 
-  65  while_stmt : WHILE LP logic_expr RP LB stmts RB
+  67  str_assign : IDENTIFIER ASSIGN_OP STRING
 
-  66  for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
+  68  bool_assign : IDENTIFIER ASSIGN_OP logic_expr_wout_id
 
-  67  logic_expr_wout_id : logic_operation
-  68                     | comparison_operation
-  69                     | NOT_OP logic_expr
+  69  status_assign : IDENTIFIER ASSIGN_OP STATUS
 
-  70  logic_expr : logic_operation
-  71             | comparison_operation
-  72             | NOT_OP logic_expr
-  73             | IDENTIFIER
+  70  protocol_assign : IDENTIFIER ASSIGN_OP PROTOCOL
 
-  74  logic_operation : logic_value
-  75                  | logic_expr OR_OP logic_value
+  71  while_stmt : WHILE LP logic_expr RP LB stmts RB
 
-  76  logic_value : bool_factor
-  77              | logic_value AND_OP bool_factor
+  72  for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
-  78  bool_factor : BOOL
-  79              | LP comparison_operation RP
-  80              | LP logic_operation RP
+  73  logic_expr_wout_id : logic_operation
+  74                     | comparison_operation
+  75                     | NOT_OP logic_expr
 
-  81  comparison_operation : num_value comparision_op num_value
+  76  logic_expr : logic_operation
+  77             | comparison_operation
+  78             | NOT_OP logic_expr
+  79             | IDENTIFIER
 
-  82  comparision_op : LESS_OP
-  83                 | GREATER_OP
-  84                 | EQUIVALENT_OP
-  85                 | GREATER_EQ_OP
-  86                 | LESS_EQ_OP
-  87                 | NOT_EQ_OP
+  80  logic_operation : logic_value
+  81                  | logic_expr OR_OP logic_value
 
-  88  input_stmt : INPUT LP IDENTIFIER RP
+  82  logic_value : bool_factor
+  83              | logic_value AND_OP bool_factor
 
-  89  input_from_connection : IDENTIFIER DOT INPUT_FROM_CONNECTION LP IDENTIFIER RP
+  84  bool_factor : BOOL
+  85              | LP comparison_operation RP
+  86              | LP logic_operation RP
 
-  90  output_stmt : PRINT LP IDENTIFIER RP
+  87  comparison_operation : num_value comparision_op num_value
 
-  91  output_to_connection : IDENTIFIER DOT OUTPUT_TO_CONNECTION LP IDENTIFIER RP
+  88  comparision_op : LESS_OP
+  89                 | GREATER_OP
+  90                 | EQUIVALENT_OP
+  91                 | GREATER_EQ_OP
+  92                 | LESS_EQ_OP
+  93                 | NOT_EQ_OP
 
-  92  read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER RP
+  94  input_stmt : INPUT LP IDENTIFIER RP
 
-  93  time_from_timer : TIME_FROM_TIMER LP IDENTIFIER RP
+  95  input_from_connection : IDENTIFIER DOT INPUT_FROM_CONNECTION LP IDENTIFIER RP
 
-  94  connect_obj_creation : CONNECTION_CLASS SPACE IDENTIFIER ASSIGN_OP NEW_INST SPACE CONNECTION_CONSTRUCTOR
+  96  output_stmt : PRINT LP IDENTIFIER RP
 
-  95  connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url RP
+  97  output_to_connection : IDENTIFIER DOT OUTPUT_TO_CONNECTION LP IDENTIFIER RP
 
-  96  url : STRING
+  98  read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER RP
 
-  97  get_connect_status : IDENTIFIER DOT GET_STATUS_FUNC LP IDENTIFIER RP
+  99  time_from_timer : TIME_FROM_TIMER LP IDENTIFIER RP
 
-  98  get_connect_protocol : IDENTIFIER DOT GET_PROTOCOL_FUNC LP IDENTIFIER RP
+ 100  connect_obj_creation : CONNECTION_CLASS SPACE IDENTIFIER ASSIGN_OP NEW_INST SPACE CONNECTION_CONSTRUCTOR
 
-  99  get_connect_URL : IDENTIFIER DOT GET_URL_FUNC LP IDENTIFIER RP
+ 101  connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url RP
 
- 100  turn_switch_on : TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP
+ 102  url : STRING
 
- 101  turn_switch_off : TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP
+ 103  get_connect_status : IDENTIFIER DOT GET_STATUS_FUNC LP IDENTIFIER RP
 
- 102  toggle_switch : TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP
+ 104  get_connect_protocol : IDENTIFIER DOT GET_PROTOCOL_FUNC LP IDENTIFIER RP
 
- 103  get_switch_state : GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
+ 105  get_connect_URL : IDENTIFIER DOT GET_URL_FUNC LP IDENTIFIER RP
+
+ 106  turn_switch_on : TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP
+
+ 107  turn_switch_off : TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP
+
+ 108  toggle_switch : TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP
+
+ 109  get_switch_state : GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
 
 state 0
 	$accept : . program $end  (0)
@@ -224,56 +229,56 @@ state 2
 
 
 state 3
-	num_value : INT .  (48)
+	num_value : INT .  (54)
 
-	.  reduce 48
+	.  reduce 54
 
 
 state 4
-	num_value : FLOAT .  (49)
+	num_value : FLOAT .  (55)
 
-	.  reduce 49
+	.  reduce 55
 
 
 state 5
-	while_stmt : WHILE . LP logic_expr RP LB stmts RB  (65)
+	while_stmt : WHILE . LP logic_expr RP LB stmts RB  (71)
 
 	LP  shift 50
 	.  error
 
 
 state 6
-	unmatched_stmt : IF . LP logic_expr RP LB stmts RB  (6)
-	unmatched_stmt : IF . LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF . LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF . LP logic_expr RP LB unmatched_stmt RB  (10)
+	unmatched_stmt : IF . LP logic_expr RP LB matched_stmt RB trial  (11)
+	matched_stmt : IF . LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB  (14)
 
 	LP  shift 51
 	.  error
 
 
 state 7
-	matched_stmt : BREAK . END_STMT  (18)
+	matched_stmt : BREAK . END_STMT  (24)
 
 	END_STMT  shift 52
 	.  error
 
 
 state 8
-	matched_stmt : CONTINUE . END_STMT  (19)
+	matched_stmt : CONTINUE . END_STMT  (25)
 
 	END_STMT  shift 53
 	.  error
 
 
 state 9
-	for_stmt : FOR . LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (66)
+	for_stmt : FOR . LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (72)
 
 	LP  shift 54
 	.  error
 
 
 state 10
-	num_value : LP . arithmetic_op RP  (50)
+	num_value : LP . arithmetic_op RP  (56)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -286,104 +291,104 @@ state 10
 
 
 state 11
-	matched_stmt : END_STMT .  (22)
+	matched_stmt : END_STMT .  (28)
 
-	.  reduce 22
+	.  reduce 28
 
 
 state 12
-	matched_stmt : COMMENT .  (21)
+	matched_stmt : COMMENT .  (27)
 
-	.  reduce 21
+	.  reduce 27
 
 
 state 13
-	input_stmt : INPUT . LP IDENTIFIER RP  (88)
+	input_stmt : INPUT . LP IDENTIFIER RP  (94)
 
 	LP  shift 56
 	.  error
 
 
 state 14
-	output_stmt : PRINT . LP IDENTIFIER RP  (90)
+	output_stmt : PRINT . LP IDENTIFIER RP  (96)
 
 	LP  shift 57
 	.  error
 
 
 state 15
-	read_from_sensor : READ_FROM_SENSOR . LP IDENTIFIER COMMA IDENTIFIER RP  (92)
+	read_from_sensor : READ_FROM_SENSOR . LP IDENTIFIER COMMA IDENTIFIER RP  (98)
 
 	LP  shift 58
 	.  error
 
 
 state 16
-	time_from_timer : TIME_FROM_TIMER . LP IDENTIFIER RP  (93)
+	time_from_timer : TIME_FROM_TIMER . LP IDENTIFIER RP  (99)
 
 	LP  shift 59
 	.  error
 
 
 state 17
-	func_define : FUNC . SPACE IDENTIFIER LP parameters RP LB func_body RB  (25)
+	func_define : FUNC . SPACE IDENTIFIER LP parameters RP LB func_body RB  (31)
 
 	SPACE  shift 60
 	.  error
 
 
 state 18
-	var_type : INT_TYPE .  (35)
-
-	.  reduce 35
-
-
-state 19
-	var_type : FLOAT_TYPE .  (36)
-
-	.  reduce 36
-
-
-state 20
-	var_type : STRING_TYPE .  (37)
-
-	.  reduce 37
-
-
-state 21
-	var_type : CHAR_TYPE .  (38)
-
-	.  reduce 38
-
-
-state 22
-	var_type : BOOL_TYPE .  (39)
-
-	.  reduce 39
-
-
-state 23
-	var_type : STATUS_TYPE .  (40)
-
-	.  reduce 40
-
-
-state 24
-	var_type : PROTOCOL_TYPE .  (41)
+	var_type : INT_TYPE .  (41)
 
 	.  reduce 41
 
 
+state 19
+	var_type : FLOAT_TYPE .  (42)
+
+	.  reduce 42
+
+
+state 20
+	var_type : STRING_TYPE .  (43)
+
+	.  reduce 43
+
+
+state 21
+	var_type : CHAR_TYPE .  (44)
+
+	.  reduce 44
+
+
+state 22
+	var_type : BOOL_TYPE .  (45)
+
+	.  reduce 45
+
+
+state 23
+	var_type : STATUS_TYPE .  (46)
+
+	.  reduce 46
+
+
+state 24
+	var_type : PROTOCOL_TYPE .  (47)
+
+	.  reduce 47
+
+
 state 25
-	func_call : IDENTIFIER . LP variables RP  (32)
-	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (53)
-	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (54)
-	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (60)
-	str_assign : IDENTIFIER . ASSIGN_OP STRING  (61)
-	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (62)
-	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (63)
-	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (64)
-	connect_stmt : IDENTIFIER . DOT CONNECT_FUNC LP url RP  (95)
+	func_call : IDENTIFIER . LP variables RP  (38)
+	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (59)
+	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (60)
+	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (66)
+	str_assign : IDENTIFIER . ASSIGN_OP STRING  (67)
+	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (68)
+	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (69)
+	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (70)
+	connect_stmt : IDENTIFIER . DOT CONNECT_FUNC LP url RP  (101)
 
 	LP  shift 61
 	ASSIGN_OP  shift 62
@@ -467,71 +472,71 @@ state 29
 
 
 state 30
-	matched_stmt : assign_stmt . END_STMT  (9)
+	matched_stmt : assign_stmt . END_STMT  (15)
 
 	END_STMT  shift 66
 	.  error
 
 
 state 31
-	matched_stmt : input_stmt . END_STMT  (10)
+	matched_stmt : input_stmt . END_STMT  (16)
 
 	END_STMT  shift 67
 	.  error
 
 
 state 32
-	matched_stmt : output_stmt . END_STMT  (11)
+	matched_stmt : output_stmt . END_STMT  (17)
 
 	END_STMT  shift 68
 	.  error
 
 
 state 33
-	matched_stmt : func_define .  (12)
+	matched_stmt : func_define .  (18)
 
-	.  reduce 12
+	.  reduce 18
 
 
 state 34
-	matched_stmt : func_call . END_STMT  (13)
+	matched_stmt : func_call . END_STMT  (19)
 
 	END_STMT  shift 69
 	.  error
 
 
 state 35
-	matched_stmt : read_from_sensor . END_STMT  (14)
+	matched_stmt : read_from_sensor . END_STMT  (20)
 
 	END_STMT  shift 70
 	.  error
 
 
 state 36
-	matched_stmt : time_from_timer . END_STMT  (15)
+	matched_stmt : time_from_timer . END_STMT  (21)
 
 	END_STMT  shift 71
 	.  error
 
 
 state 37
-	matched_stmt : connect_stmt . END_STMT  (16)
+	matched_stmt : connect_stmt . END_STMT  (22)
 
 	END_STMT  shift 72
 	.  error
 
 
 state 38
-	matched_stmt : declare_stmt . END_STMT  (17)
+	matched_stmt : declare_stmt . END_STMT  (23)
 
 	END_STMT  shift 73
 	.  error
 
 
 state 39
-	matched_stmt : arithmetic_op . END_STMT  (20)
-	arithmetic_op : arithmetic_op . PLUS_OP numeric_value  (43)
-	arithmetic_op : arithmetic_op . MINUS_OP numeric_value  (44)
+	matched_stmt : arithmetic_op . END_STMT  (26)
+	arithmetic_op : arithmetic_op . PLUS_OP numeric_value  (49)
+	arithmetic_op : arithmetic_op . MINUS_OP numeric_value  (50)
 
 	END_STMT  shift 74
 	PLUS_OP  shift 75
@@ -540,76 +545,76 @@ state 39
 
 
 state 40
-	matched_stmt : while_stmt .  (23)
+	matched_stmt : while_stmt .  (29)
 
-	.  reduce 23
+	.  reduce 29
 
 
 state 41
-	matched_stmt : for_stmt .  (24)
+	matched_stmt : for_stmt .  (30)
 
-	.  reduce 24
+	.  reduce 30
 
 
 state 42
-	declare_stmt : var_type . SPACE IDENTIFIER  (51)
-	declare_stmt : var_type . SPACE assign_stmt  (52)
+	declare_stmt : var_type . SPACE IDENTIFIER  (57)
+	declare_stmt : var_type . SPACE assign_stmt  (58)
 
 	SPACE  shift 77
 	.  error
 
 
 state 43
-	arithmetic_op : numeric_value .  (42)
-	numeric_value : numeric_value . MULT_OP num_value  (46)
-	numeric_value : numeric_value . DIV_OP num_value  (47)
+	arithmetic_op : numeric_value .  (48)
+	numeric_value : numeric_value . MULT_OP num_value  (52)
+	numeric_value : numeric_value . DIV_OP num_value  (53)
 
 	DIV_OP  shift 78
 	MULT_OP  shift 79
-	RP  reduce 42
-	END_STMT  reduce 42
-	PLUS_OP  reduce 42
-	MINUS_OP  reduce 42
+	RP  reduce 48
+	END_STMT  reduce 48
+	PLUS_OP  reduce 48
+	MINUS_OP  reduce 48
 
 
 state 44
-	numeric_value : num_value .  (45)
+	numeric_value : num_value .  (51)
 
-	.  reduce 45
+	.  reduce 51
 
 
 state 45
-	assign_stmt : str_assign .  (55)
+	assign_stmt : str_assign .  (61)
 
-	.  reduce 55
+	.  reduce 61
 
 
 state 46
-	assign_stmt : char_assign .  (56)
+	assign_stmt : char_assign .  (62)
 
-	.  reduce 56
+	.  reduce 62
 
 
 state 47
-	assign_stmt : bool_assign .  (57)
+	assign_stmt : bool_assign .  (63)
 
-	.  reduce 57
+	.  reduce 63
 
 
 state 48
-	assign_stmt : status_assign .  (58)
+	assign_stmt : status_assign .  (64)
 
-	.  reduce 58
+	.  reduce 64
 
 
 state 49
-	assign_stmt : protocol_assign .  (59)
+	assign_stmt : protocol_assign .  (65)
 
-	.  reduce 59
+	.  reduce 65
 
 
 state 50
-	while_stmt : WHILE LP . logic_expr RP LB stmts RB  (65)
+	while_stmt : WHILE LP . logic_expr RP LB stmts RB  (71)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -628,9 +633,9 @@ state 50
 
 
 state 51
-	unmatched_stmt : IF LP . logic_expr RP LB stmts RB  (6)
-	unmatched_stmt : IF LP . logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP . logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF LP . logic_expr RP LB unmatched_stmt RB  (10)
+	unmatched_stmt : IF LP . logic_expr RP LB matched_stmt RB trial  (11)
+	matched_stmt : IF LP . logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB  (14)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -649,19 +654,19 @@ state 51
 
 
 state 52
-	matched_stmt : BREAK END_STMT .  (18)
+	matched_stmt : BREAK END_STMT .  (24)
 
-	.  reduce 18
+	.  reduce 24
 
 
 state 53
-	matched_stmt : CONTINUE END_STMT .  (19)
+	matched_stmt : CONTINUE END_STMT .  (25)
 
-	.  reduce 19
+	.  reduce 25
 
 
 state 54
-	for_stmt : FOR LP . declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (66)
+	for_stmt : FOR LP . declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (72)
 
 	INT_TYPE  shift 18
 	FLOAT_TYPE  shift 19
@@ -677,9 +682,9 @@ state 54
 
 
 state 55
-	arithmetic_op : arithmetic_op . PLUS_OP numeric_value  (43)
-	arithmetic_op : arithmetic_op . MINUS_OP numeric_value  (44)
-	num_value : LP arithmetic_op . RP  (50)
+	arithmetic_op : arithmetic_op . PLUS_OP numeric_value  (49)
+	arithmetic_op : arithmetic_op . MINUS_OP numeric_value  (50)
+	num_value : LP arithmetic_op . RP  (56)
 
 	RP  shift 92
 	PLUS_OP  shift 75
@@ -688,42 +693,42 @@ state 55
 
 
 state 56
-	input_stmt : INPUT LP . IDENTIFIER RP  (88)
+	input_stmt : INPUT LP . IDENTIFIER RP  (94)
 
 	IDENTIFIER  shift 93
 	.  error
 
 
 state 57
-	output_stmt : PRINT LP . IDENTIFIER RP  (90)
+	output_stmt : PRINT LP . IDENTIFIER RP  (96)
 
 	IDENTIFIER  shift 94
 	.  error
 
 
 state 58
-	read_from_sensor : READ_FROM_SENSOR LP . IDENTIFIER COMMA IDENTIFIER RP  (92)
+	read_from_sensor : READ_FROM_SENSOR LP . IDENTIFIER COMMA IDENTIFIER RP  (98)
 
 	IDENTIFIER  shift 95
 	.  error
 
 
 state 59
-	time_from_timer : TIME_FROM_TIMER LP . IDENTIFIER RP  (93)
+	time_from_timer : TIME_FROM_TIMER LP . IDENTIFIER RP  (99)
 
 	IDENTIFIER  shift 96
 	.  error
 
 
 state 60
-	func_define : FUNC SPACE . IDENTIFIER LP parameters RP LB func_body RB  (25)
+	func_define : FUNC SPACE . IDENTIFIER LP parameters RP LB func_body RB  (31)
 
 	IDENTIFIER  shift 97
 	.  error
 
 
 state 61
-	func_call : IDENTIFIER LP . variables RP  (32)
+	func_call : IDENTIFIER LP . variables RP  (38)
 
 	IDENTIFIER  shift 98
 	.  error
@@ -732,13 +737,13 @@ state 61
 
 
 state 62
-	assign_stmt : IDENTIFIER ASSIGN_OP . IDENTIFIER  (53)
-	assign_stmt : IDENTIFIER ASSIGN_OP . num_value  (54)
-	char_assign : IDENTIFIER ASSIGN_OP . CHAR  (60)
-	str_assign : IDENTIFIER ASSIGN_OP . STRING  (61)
-	bool_assign : IDENTIFIER ASSIGN_OP . logic_expr_wout_id  (62)
-	status_assign : IDENTIFIER ASSIGN_OP . STATUS  (63)
-	protocol_assign : IDENTIFIER ASSIGN_OP . PROTOCOL  (64)
+	assign_stmt : IDENTIFIER ASSIGN_OP . IDENTIFIER  (59)
+	assign_stmt : IDENTIFIER ASSIGN_OP . num_value  (60)
+	char_assign : IDENTIFIER ASSIGN_OP . CHAR  (66)
+	str_assign : IDENTIFIER ASSIGN_OP . STRING  (67)
+	bool_assign : IDENTIFIER ASSIGN_OP . logic_expr_wout_id  (68)
+	status_assign : IDENTIFIER ASSIGN_OP . STATUS  (69)
+	protocol_assign : IDENTIFIER ASSIGN_OP . PROTOCOL  (70)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -762,7 +767,7 @@ state 62
 
 
 state 63
-	connect_stmt : IDENTIFIER DOT . CONNECT_FUNC LP url RP  (95)
+	connect_stmt : IDENTIFIER DOT . CONNECT_FUNC LP url RP  (101)
 
 	CONNECT_FUNC  shift 111
 	.  error
@@ -781,61 +786,61 @@ state 65
 
 
 state 66
-	matched_stmt : assign_stmt END_STMT .  (9)
-
-	.  reduce 9
-
-
-state 67
-	matched_stmt : input_stmt END_STMT .  (10)
-
-	.  reduce 10
-
-
-state 68
-	matched_stmt : output_stmt END_STMT .  (11)
-
-	.  reduce 11
-
-
-state 69
-	matched_stmt : func_call END_STMT .  (13)
-
-	.  reduce 13
-
-
-state 70
-	matched_stmt : read_from_sensor END_STMT .  (14)
-
-	.  reduce 14
-
-
-state 71
-	matched_stmt : time_from_timer END_STMT .  (15)
+	matched_stmt : assign_stmt END_STMT .  (15)
 
 	.  reduce 15
 
 
-state 72
-	matched_stmt : connect_stmt END_STMT .  (16)
+state 67
+	matched_stmt : input_stmt END_STMT .  (16)
 
 	.  reduce 16
 
 
-state 73
-	matched_stmt : declare_stmt END_STMT .  (17)
+state 68
+	matched_stmt : output_stmt END_STMT .  (17)
 
 	.  reduce 17
 
 
-state 74
-	matched_stmt : arithmetic_op END_STMT .  (20)
+state 69
+	matched_stmt : func_call END_STMT .  (19)
+
+	.  reduce 19
+
+
+state 70
+	matched_stmt : read_from_sensor END_STMT .  (20)
 
 	.  reduce 20
 
 
+state 71
+	matched_stmt : time_from_timer END_STMT .  (21)
+
+	.  reduce 21
+
+
+state 72
+	matched_stmt : connect_stmt END_STMT .  (22)
+
+	.  reduce 22
+
+
+state 73
+	matched_stmt : declare_stmt END_STMT .  (23)
+
+	.  reduce 23
+
+
+state 74
+	matched_stmt : arithmetic_op END_STMT .  (26)
+
+	.  reduce 26
+
+
 state 75
-	arithmetic_op : arithmetic_op PLUS_OP . numeric_value  (43)
+	arithmetic_op : arithmetic_op PLUS_OP . numeric_value  (49)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -847,7 +852,7 @@ state 75
 
 
 state 76
-	arithmetic_op : arithmetic_op MINUS_OP . numeric_value  (44)
+	arithmetic_op : arithmetic_op MINUS_OP . numeric_value  (50)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -859,8 +864,8 @@ state 76
 
 
 state 77
-	declare_stmt : var_type SPACE . IDENTIFIER  (51)
-	declare_stmt : var_type SPACE . assign_stmt  (52)
+	declare_stmt : var_type SPACE . IDENTIFIER  (57)
+	declare_stmt : var_type SPACE . assign_stmt  (58)
 
 	IDENTIFIER  shift 114
 	.  error
@@ -874,7 +879,7 @@ state 77
 
 
 state 78
-	numeric_value : numeric_value DIV_OP . num_value  (47)
+	numeric_value : numeric_value DIV_OP . num_value  (53)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -885,7 +890,7 @@ state 78
 
 
 state 79
-	numeric_value : numeric_value MULT_OP . num_value  (46)
+	numeric_value : numeric_value MULT_OP . num_value  (52)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -896,15 +901,15 @@ state 79
 
 
 state 80
-	bool_factor : BOOL .  (78)
+	bool_factor : BOOL .  (84)
 
-	.  reduce 78
+	.  reduce 84
 
 
 state 81
-	num_value : LP . arithmetic_op RP  (50)
-	bool_factor : LP . comparison_operation RP  (79)
-	bool_factor : LP . logic_operation RP  (80)
+	num_value : LP . arithmetic_op RP  (56)
+	bool_factor : LP . comparison_operation RP  (85)
+	bool_factor : LP . logic_operation RP  (86)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -925,7 +930,7 @@ state 81
 
 
 state 82
-	logic_expr : NOT_OP . logic_expr  (72)
+	logic_expr : NOT_OP . logic_expr  (78)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -944,14 +949,14 @@ state 82
 
 
 state 83
-	logic_expr : IDENTIFIER .  (73)
+	logic_expr : IDENTIFIER .  (79)
 
-	.  reduce 73
+	.  reduce 79
 
 
 state 84
-	while_stmt : WHILE LP logic_expr . RP LB stmts RB  (65)
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	while_stmt : WHILE LP logic_expr . RP LB stmts RB  (71)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	RP  shift 122
 	OR_OP  shift 123
@@ -959,7 +964,7 @@ state 84
 
 
 state 85
-	comparison_operation : num_value . comparision_op num_value  (81)
+	comparison_operation : num_value . comparision_op num_value  (87)
 
 	NOT_EQ_OP  shift 124
 	EQUIVALENT_OP  shift 125
@@ -973,38 +978,38 @@ state 85
 
 
 state 86
-	logic_expr : logic_operation .  (70)
-
-	.  reduce 70
-
-
-state 87
-	logic_expr : comparison_operation .  (71)
-
-	.  reduce 71
-
-
-state 88
-	logic_operation : logic_value .  (74)
-	logic_value : logic_value . AND_OP bool_factor  (77)
-
-	AND_OP  shift 131
-	RP  reduce 74
-	END_STMT  reduce 74
-	OR_OP  reduce 74
-
-
-state 89
-	logic_value : bool_factor .  (76)
+	logic_expr : logic_operation .  (76)
 
 	.  reduce 76
 
 
+state 87
+	logic_expr : comparison_operation .  (77)
+
+	.  reduce 77
+
+
+state 88
+	logic_operation : logic_value .  (80)
+	logic_value : logic_value . AND_OP bool_factor  (83)
+
+	AND_OP  shift 131
+	RP  reduce 80
+	END_STMT  reduce 80
+	OR_OP  reduce 80
+
+
+state 89
+	logic_value : bool_factor .  (82)
+
+	.  reduce 82
+
+
 state 90
-	unmatched_stmt : IF LP logic_expr . RP LB stmts RB  (6)
-	unmatched_stmt : IF LP logic_expr . RP LB matched_stmt RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr . RP LB matched_stmt RB ELSE LB matched_stmt RB  (8)
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	unmatched_stmt : IF LP logic_expr . RP LB unmatched_stmt RB  (10)
+	unmatched_stmt : IF LP logic_expr . RP LB matched_stmt RB trial  (11)
+	matched_stmt : IF LP logic_expr . RP LB matched_stmt RB ELSE LB matched_stmt RB  (14)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	RP  shift 132
 	OR_OP  shift 123
@@ -1012,95 +1017,95 @@ state 90
 
 
 state 91
-	for_stmt : FOR LP declare_stmt . END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (66)
+	for_stmt : FOR LP declare_stmt . END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB  (72)
 
 	END_STMT  shift 133
 	.  error
 
 
 state 92
-	num_value : LP arithmetic_op RP .  (50)
+	num_value : LP arithmetic_op RP .  (56)
 
-	.  reduce 50
+	.  reduce 56
 
 
 state 93
-	input_stmt : INPUT LP IDENTIFIER . RP  (88)
+	input_stmt : INPUT LP IDENTIFIER . RP  (94)
 
 	RP  shift 134
 	.  error
 
 
 state 94
-	output_stmt : PRINT LP IDENTIFIER . RP  (90)
+	output_stmt : PRINT LP IDENTIFIER . RP  (96)
 
 	RP  shift 135
 	.  error
 
 
 state 95
-	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER . COMMA IDENTIFIER RP  (92)
+	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER . COMMA IDENTIFIER RP  (98)
 
 	COMMA  shift 136
 	.  error
 
 
 state 96
-	time_from_timer : TIME_FROM_TIMER LP IDENTIFIER . RP  (93)
+	time_from_timer : TIME_FROM_TIMER LP IDENTIFIER . RP  (99)
 
 	RP  shift 137
 	.  error
 
 
 state 97
-	func_define : FUNC SPACE IDENTIFIER . LP parameters RP LB func_body RB  (25)
+	func_define : FUNC SPACE IDENTIFIER . LP parameters RP LB func_body RB  (31)
 
 	LP  shift 138
 	.  error
 
 
 state 98
-	variables : IDENTIFIER .  (33)
-	variables : IDENTIFIER . COMMA variables  (34)
+	variables : IDENTIFIER .  (39)
+	variables : IDENTIFIER . COMMA variables  (40)
 
 	COMMA  shift 139
-	RP  reduce 33
+	RP  reduce 39
 
 
 state 99
-	func_call : IDENTIFIER LP variables . RP  (32)
+	func_call : IDENTIFIER LP variables . RP  (38)
 
 	RP  shift 140
 	.  error
 
 
 state 100
-	char_assign : IDENTIFIER ASSIGN_OP CHAR .  (60)
+	char_assign : IDENTIFIER ASSIGN_OP CHAR .  (66)
 
-	.  reduce 60
+	.  reduce 66
 
 
 state 101
-	str_assign : IDENTIFIER ASSIGN_OP STRING .  (61)
+	str_assign : IDENTIFIER ASSIGN_OP STRING .  (67)
 
-	.  reduce 61
+	.  reduce 67
 
 
 state 102
-	status_assign : IDENTIFIER ASSIGN_OP STATUS .  (63)
+	status_assign : IDENTIFIER ASSIGN_OP STATUS .  (69)
 
-	.  reduce 63
+	.  reduce 69
 
 
 state 103
-	protocol_assign : IDENTIFIER ASSIGN_OP PROTOCOL .  (64)
+	protocol_assign : IDENTIFIER ASSIGN_OP PROTOCOL .  (70)
 
-	.  reduce 64
+	.  reduce 70
 
 
 state 104
-	logic_expr_wout_id : NOT_OP . logic_expr  (69)
-	logic_expr : NOT_OP . logic_expr  (72)
+	logic_expr_wout_id : NOT_OP . logic_expr  (75)
+	logic_expr : NOT_OP . logic_expr  (78)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1119,24 +1124,24 @@ state 104
 
 
 state 105
-	assign_stmt : IDENTIFIER ASSIGN_OP IDENTIFIER .  (53)
-	logic_expr : IDENTIFIER .  (73)
+	assign_stmt : IDENTIFIER ASSIGN_OP IDENTIFIER .  (59)
+	logic_expr : IDENTIFIER .  (79)
 
-	RP  reduce 53
-	END_STMT  reduce 53
-	OR_OP  reduce 73
+	RP  reduce 59
+	END_STMT  reduce 59
+	OR_OP  reduce 79
 
 
 state 106
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	OR_OP  shift 123
 	.  error
 
 
 state 107
-	assign_stmt : IDENTIFIER ASSIGN_OP num_value .  (54)
-	comparison_operation : num_value . comparision_op num_value  (81)
+	assign_stmt : IDENTIFIER ASSIGN_OP num_value .  (60)
+	comparison_operation : num_value . comparision_op num_value  (87)
 
 	NOT_EQ_OP  shift 124
 	EQUIVALENT_OP  shift 125
@@ -1144,104 +1149,104 @@ state 107
 	GREATER_OP  shift 127
 	LESS_EQ_OP  shift 128
 	GREATER_EQ_OP  shift 129
-	RP  reduce 54
-	END_STMT  reduce 54
+	RP  reduce 60
+	END_STMT  reduce 60
 
 	comparision_op  goto 130
 
 
 state 108
-	bool_assign : IDENTIFIER ASSIGN_OP logic_expr_wout_id .  (62)
+	bool_assign : IDENTIFIER ASSIGN_OP logic_expr_wout_id .  (68)
 
-	.  reduce 62
+	.  reduce 68
 
 
 state 109
-	logic_expr_wout_id : logic_operation .  (67)
-	logic_expr : logic_operation .  (70)
+	logic_expr_wout_id : logic_operation .  (73)
+	logic_expr : logic_operation .  (76)
 
-	RP  reduce 67
-	END_STMT  reduce 67
-	OR_OP  reduce 70
+	RP  reduce 73
+	END_STMT  reduce 73
+	OR_OP  reduce 76
 
 
 state 110
-	logic_expr_wout_id : comparison_operation .  (68)
-	logic_expr : comparison_operation .  (71)
+	logic_expr_wout_id : comparison_operation .  (74)
+	logic_expr : comparison_operation .  (77)
 
-	RP  reduce 68
-	END_STMT  reduce 68
-	OR_OP  reduce 71
+	RP  reduce 74
+	END_STMT  reduce 74
+	OR_OP  reduce 77
 
 
 state 111
-	connect_stmt : IDENTIFIER DOT CONNECT_FUNC . LP url RP  (95)
+	connect_stmt : IDENTIFIER DOT CONNECT_FUNC . LP url RP  (101)
 
 	LP  shift 142
 	.  error
 
 
 state 112
-	arithmetic_op : arithmetic_op PLUS_OP numeric_value .  (43)
-	numeric_value : numeric_value . MULT_OP num_value  (46)
-	numeric_value : numeric_value . DIV_OP num_value  (47)
+	arithmetic_op : arithmetic_op PLUS_OP numeric_value .  (49)
+	numeric_value : numeric_value . MULT_OP num_value  (52)
+	numeric_value : numeric_value . DIV_OP num_value  (53)
 
 	DIV_OP  shift 78
 	MULT_OP  shift 79
-	RP  reduce 43
-	END_STMT  reduce 43
-	PLUS_OP  reduce 43
-	MINUS_OP  reduce 43
+	RP  reduce 49
+	END_STMT  reduce 49
+	PLUS_OP  reduce 49
+	MINUS_OP  reduce 49
 
 
 state 113
-	arithmetic_op : arithmetic_op MINUS_OP numeric_value .  (44)
-	numeric_value : numeric_value . MULT_OP num_value  (46)
-	numeric_value : numeric_value . DIV_OP num_value  (47)
+	arithmetic_op : arithmetic_op MINUS_OP numeric_value .  (50)
+	numeric_value : numeric_value . MULT_OP num_value  (52)
+	numeric_value : numeric_value . DIV_OP num_value  (53)
 
 	DIV_OP  shift 78
 	MULT_OP  shift 79
-	RP  reduce 44
-	END_STMT  reduce 44
-	PLUS_OP  reduce 44
-	MINUS_OP  reduce 44
+	RP  reduce 50
+	END_STMT  reduce 50
+	PLUS_OP  reduce 50
+	MINUS_OP  reduce 50
 
 
 state 114
-	declare_stmt : var_type SPACE IDENTIFIER .  (51)
-	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (53)
-	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (54)
-	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (60)
-	str_assign : IDENTIFIER . ASSIGN_OP STRING  (61)
-	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (62)
-	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (63)
-	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (64)
+	declare_stmt : var_type SPACE IDENTIFIER .  (57)
+	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (59)
+	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (60)
+	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (66)
+	str_assign : IDENTIFIER . ASSIGN_OP STRING  (67)
+	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (68)
+	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (69)
+	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (70)
 
 	ASSIGN_OP  shift 62
-	END_STMT  reduce 51
+	END_STMT  reduce 57
 
 
 state 115
-	declare_stmt : var_type SPACE assign_stmt .  (52)
+	declare_stmt : var_type SPACE assign_stmt .  (58)
+
+	.  reduce 58
+
+
+state 116
+	numeric_value : numeric_value DIV_OP num_value .  (53)
+
+	.  reduce 53
+
+
+state 117
+	numeric_value : numeric_value MULT_OP num_value .  (52)
 
 	.  reduce 52
 
 
-state 116
-	numeric_value : numeric_value DIV_OP num_value .  (47)
-
-	.  reduce 47
-
-
-state 117
-	numeric_value : numeric_value MULT_OP num_value .  (46)
-
-	.  reduce 46
-
-
 state 118
-	numeric_value : num_value .  (45)
-	comparison_operation : num_value . comparision_op num_value  (81)
+	numeric_value : num_value .  (51)
+	comparison_operation : num_value . comparision_op num_value  (87)
 
 	NOT_EQ_OP  shift 124
 	EQUIVALENT_OP  shift 125
@@ -1249,50 +1254,50 @@ state 118
 	GREATER_OP  shift 127
 	LESS_EQ_OP  shift 128
 	GREATER_EQ_OP  shift 129
-	RP  reduce 45
-	DIV_OP  reduce 45
-	MULT_OP  reduce 45
-	PLUS_OP  reduce 45
-	MINUS_OP  reduce 45
+	RP  reduce 51
+	DIV_OP  reduce 51
+	MULT_OP  reduce 51
+	PLUS_OP  reduce 51
+	MINUS_OP  reduce 51
 
 	comparision_op  goto 130
 
 
 state 119
-	logic_expr : logic_operation .  (70)
-	bool_factor : LP logic_operation . RP  (80)
+	logic_expr : logic_operation .  (76)
+	bool_factor : LP logic_operation . RP  (86)
 
 	RP  shift 143
-	OR_OP  reduce 70
+	OR_OP  reduce 76
 
 
 state 120
-	logic_expr : comparison_operation .  (71)
-	bool_factor : LP comparison_operation . RP  (79)
+	logic_expr : comparison_operation .  (77)
+	bool_factor : LP comparison_operation . RP  (85)
 
 	RP  shift 144
-	OR_OP  reduce 71
+	OR_OP  reduce 77
 
 
-121: shift/reduce conflict (shift 123, reduce 72) on OR_OP
+121: shift/reduce conflict (shift 123, reduce 78) on OR_OP
 state 121
-	logic_expr : NOT_OP logic_expr .  (72)
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	logic_expr : NOT_OP logic_expr .  (78)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	OR_OP  shift 123
-	RP  reduce 72
-	END_STMT  reduce 72
+	RP  reduce 78
+	END_STMT  reduce 78
 
 
 state 122
-	while_stmt : WHILE LP logic_expr RP . LB stmts RB  (65)
+	while_stmt : WHILE LP logic_expr RP . LB stmts RB  (71)
 
 	LB  shift 145
 	.  error
 
 
 state 123
-	logic_operation : logic_expr OR_OP . logic_value  (75)
+	logic_operation : logic_expr OR_OP . logic_value  (81)
 
 	BOOL  shift 80
 	LP  shift 146
@@ -1303,43 +1308,43 @@ state 123
 
 
 state 124
-	comparision_op : NOT_EQ_OP .  (87)
+	comparision_op : NOT_EQ_OP .  (93)
 
-	.  reduce 87
+	.  reduce 93
 
 
 state 125
-	comparision_op : EQUIVALENT_OP .  (84)
+	comparision_op : EQUIVALENT_OP .  (90)
 
-	.  reduce 84
+	.  reduce 90
 
 
 state 126
-	comparision_op : LESS_OP .  (82)
+	comparision_op : LESS_OP .  (88)
 
-	.  reduce 82
+	.  reduce 88
 
 
 state 127
-	comparision_op : GREATER_OP .  (83)
+	comparision_op : GREATER_OP .  (89)
 
-	.  reduce 83
+	.  reduce 89
 
 
 state 128
-	comparision_op : LESS_EQ_OP .  (86)
+	comparision_op : LESS_EQ_OP .  (92)
 
-	.  reduce 86
+	.  reduce 92
 
 
 state 129
-	comparision_op : GREATER_EQ_OP .  (85)
+	comparision_op : GREATER_EQ_OP .  (91)
 
-	.  reduce 85
+	.  reduce 91
 
 
 state 130
-	comparison_operation : num_value comparision_op . num_value  (81)
+	comparison_operation : num_value comparision_op . num_value  (87)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1350,7 +1355,7 @@ state 130
 
 
 state 131
-	logic_value : logic_value AND_OP . bool_factor  (77)
+	logic_value : logic_value AND_OP . bool_factor  (83)
 
 	BOOL  shift 80
 	LP  shift 146
@@ -1360,16 +1365,16 @@ state 131
 
 
 state 132
-	unmatched_stmt : IF LP logic_expr RP . LB stmts RB  (6)
-	unmatched_stmt : IF LP logic_expr RP . LB matched_stmt RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP . LB matched_stmt RB ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF LP logic_expr RP . LB unmatched_stmt RB  (10)
+	unmatched_stmt : IF LP logic_expr RP . LB matched_stmt RB trial  (11)
+	matched_stmt : IF LP logic_expr RP . LB matched_stmt RB ELSE LB matched_stmt RB  (14)
 
 	LB  shift 150
 	.  error
 
 
 state 133
-	for_stmt : FOR LP declare_stmt END_STMT . logic_expr END_STMT assign_stmt RP LB stmts RB  (66)
+	for_stmt : FOR LP declare_stmt END_STMT . logic_expr END_STMT assign_stmt RP LB stmts RB  (72)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1388,32 +1393,32 @@ state 133
 
 
 state 134
-	input_stmt : INPUT LP IDENTIFIER RP .  (88)
+	input_stmt : INPUT LP IDENTIFIER RP .  (94)
 
-	.  reduce 88
+	.  reduce 94
 
 
 state 135
-	output_stmt : PRINT LP IDENTIFIER RP .  (90)
+	output_stmt : PRINT LP IDENTIFIER RP .  (96)
 
-	.  reduce 90
+	.  reduce 96
 
 
 state 136
-	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA . IDENTIFIER RP  (92)
+	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA . IDENTIFIER RP  (98)
 
 	IDENTIFIER  shift 152
 	.  error
 
 
 state 137
-	time_from_timer : TIME_FROM_TIMER LP IDENTIFIER RP .  (93)
+	time_from_timer : TIME_FROM_TIMER LP IDENTIFIER RP .  (99)
 
-	.  reduce 93
+	.  reduce 99
 
 
 state 138
-	func_define : FUNC SPACE IDENTIFIER LP . parameters RP LB func_body RB  (25)
+	func_define : FUNC SPACE IDENTIFIER LP . parameters RP LB func_body RB  (31)
 
 	INT_TYPE  shift 18
 	FLOAT_TYPE  shift 19
@@ -1431,7 +1436,7 @@ state 138
 
 
 state 139
-	variables : IDENTIFIER COMMA . variables  (34)
+	variables : IDENTIFIER COMMA . variables  (40)
 
 	IDENTIFIER  shift 98
 	.  error
@@ -1440,24 +1445,24 @@ state 139
 
 
 state 140
-	func_call : IDENTIFIER LP variables RP .  (32)
+	func_call : IDENTIFIER LP variables RP .  (38)
 
-	.  reduce 32
+	.  reduce 38
 
 
-141: shift/reduce conflict (shift 123, reduce 72) on OR_OP
+141: shift/reduce conflict (shift 123, reduce 78) on OR_OP
 state 141
-	logic_expr_wout_id : NOT_OP logic_expr .  (69)
-	logic_expr : NOT_OP logic_expr .  (72)
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	logic_expr_wout_id : NOT_OP logic_expr .  (75)
+	logic_expr : NOT_OP logic_expr .  (78)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	OR_OP  shift 123
-	RP  reduce 69
-	END_STMT  reduce 69
+	RP  reduce 75
+	END_STMT  reduce 75
 
 
 state 142
-	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP . url RP  (95)
+	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP . url RP  (101)
 
 	STRING  shift 158
 	.  error
@@ -1466,19 +1471,19 @@ state 142
 
 
 state 143
-	bool_factor : LP logic_operation RP .  (80)
+	bool_factor : LP logic_operation RP .  (86)
 
-	.  reduce 80
+	.  reduce 86
 
 
 state 144
-	bool_factor : LP comparison_operation RP .  (79)
+	bool_factor : LP comparison_operation RP .  (85)
 
-	.  reduce 79
+	.  reduce 85
 
 
 state 145
-	while_stmt : WHILE LP logic_expr RP LB . stmts RB  (65)
+	while_stmt : WHILE LP logic_expr RP LB . stmts RB  (71)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1532,8 +1537,8 @@ state 145
 
 
 state 146
-	bool_factor : LP . comparison_operation RP  (79)
-	bool_factor : LP . logic_operation RP  (80)
+	bool_factor : LP . comparison_operation RP  (85)
+	bool_factor : LP . logic_operation RP  (86)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1552,31 +1557,31 @@ state 146
 
 
 state 147
-	logic_operation : logic_expr OR_OP logic_value .  (75)
-	logic_value : logic_value . AND_OP bool_factor  (77)
+	logic_operation : logic_expr OR_OP logic_value .  (81)
+	logic_value : logic_value . AND_OP bool_factor  (83)
 
 	AND_OP  shift 131
-	RP  reduce 75
-	END_STMT  reduce 75
-	OR_OP  reduce 75
+	RP  reduce 81
+	END_STMT  reduce 81
+	OR_OP  reduce 81
 
 
 state 148
-	comparison_operation : num_value comparision_op num_value .  (81)
+	comparison_operation : num_value comparision_op num_value .  (87)
 
-	.  reduce 81
+	.  reduce 87
 
 
 state 149
-	logic_value : logic_value AND_OP bool_factor .  (77)
+	logic_value : logic_value AND_OP bool_factor .  (83)
 
-	.  reduce 77
+	.  reduce 83
 
 
 state 150
-	unmatched_stmt : IF LP logic_expr RP LB . stmts RB  (6)
-	unmatched_stmt : IF LP logic_expr RP LB . matched_stmt RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP LB . matched_stmt RB ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF LP logic_expr RP LB . unmatched_stmt RB  (10)
+	unmatched_stmt : IF LP logic_expr RP LB . matched_stmt RB trial  (11)
+	matched_stmt : IF LP logic_expr RP LB . matched_stmt RB ELSE LB matched_stmt RB  (14)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1603,10 +1608,8 @@ state 150
 	IDENTIFIER  shift 25
 	.  error
 
-	stmts  goto 161
-	stmt  goto 27
-	matched_stmt  goto 162
-	unmatched_stmt  goto 29
+	matched_stmt  goto 161
+	unmatched_stmt  goto 162
 	assign_stmt  goto 30
 	input_stmt  goto 31
 	output_stmt  goto 32
@@ -1630,8 +1633,8 @@ state 150
 
 
 state 151
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr . END_STMT assign_stmt RP LB stmts RB  (66)
-	logic_operation : logic_expr . OR_OP logic_value  (75)
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr . END_STMT assign_stmt RP LB stmts RB  (72)
+	logic_operation : logic_expr . OR_OP logic_value  (81)
 
 	END_STMT  shift 163
 	OR_OP  shift 123
@@ -1639,28 +1642,28 @@ state 151
 
 
 state 152
-	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER . RP  (92)
+	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER . RP  (98)
 
 	RP  shift 164
 	.  error
 
 
 state 153
-	parameter : EMPTY .  (29)
+	parameter : EMPTY .  (35)
 
-	.  reduce 29
+	.  reduce 35
 
 
 state 154
-	func_define : FUNC SPACE IDENTIFIER LP parameters . RP LB func_body RB  (25)
+	func_define : FUNC SPACE IDENTIFIER LP parameters . RP LB func_body RB  (31)
 
 	RP  shift 165
 	.  error
 
 
 state 155
-	parameters : parameter .  (26)
-	parameters : parameter . parameters  (27)
+	parameters : parameter .  (32)
+	parameters : parameter . parameters  (33)
 
 	INT_TYPE  shift 18
 	FLOAT_TYPE  shift 19
@@ -1670,7 +1673,7 @@ state 155
 	STATUS_TYPE  shift 23
 	PROTOCOL_TYPE  shift 24
 	EMPTY  shift 153
-	RP  reduce 26
+	RP  reduce 32
 
 	parameters  goto 166
 	parameter  goto 155
@@ -1678,79 +1681,55 @@ state 155
 
 
 state 156
-	parameter : var_type . SPACE IDENTIFIER  (28)
+	parameter : var_type . SPACE IDENTIFIER  (34)
 
 	SPACE  shift 167
 	.  error
 
 
 state 157
-	variables : IDENTIFIER COMMA variables .  (34)
+	variables : IDENTIFIER COMMA variables .  (40)
 
-	.  reduce 34
+	.  reduce 40
 
 
 state 158
-	url : STRING .  (96)
+	url : STRING .  (102)
 
-	.  reduce 96
+	.  reduce 102
 
 
 state 159
-	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url . RP  (95)
+	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url . RP  (101)
 
 	RP  shift 168
 	.  error
 
 
 state 160
-	while_stmt : WHILE LP logic_expr RP LB stmts . RB  (65)
+	while_stmt : WHILE LP logic_expr RP LB stmts . RB  (71)
 
 	RB  shift 169
 	.  error
 
 
 state 161
-	unmatched_stmt : IF LP logic_expr RP LB stmts . RB  (6)
+	unmatched_stmt : IF LP logic_expr RP LB matched_stmt . RB trial  (11)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt . RB ELSE LB matched_stmt RB  (14)
 
 	RB  shift 170
 	.  error
 
 
-162: shift/reduce conflict (shift 171, reduce 4) on RB
 state 162
-	stmt : matched_stmt .  (4)
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt . RB ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP LB matched_stmt . RB ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF LP logic_expr RP LB unmatched_stmt . RB  (10)
 
 	RB  shift 171
-	INT  reduce 4
-	FLOAT  reduce 4
-	WHILE  reduce 4
-	IF  reduce 4
-	BREAK  reduce 4
-	CONTINUE  reduce 4
-	FOR  reduce 4
-	LP  reduce 4
-	END_STMT  reduce 4
-	COMMENT  reduce 4
-	INPUT  reduce 4
-	PRINT  reduce 4
-	READ_FROM_SENSOR  reduce 4
-	TIME_FROM_TIMER  reduce 4
-	FUNC  reduce 4
-	INT_TYPE  reduce 4
-	FLOAT_TYPE  reduce 4
-	STRING_TYPE  reduce 4
-	CHAR_TYPE  reduce 4
-	BOOL_TYPE  reduce 4
-	STATUS_TYPE  reduce 4
-	PROTOCOL_TYPE  reduce 4
-	IDENTIFIER  reduce 4
+	.  error
 
 
 state 163
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT . assign_stmt RP LB stmts RB  (66)
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT . assign_stmt RP LB stmts RB  (72)
 
 	IDENTIFIER  shift 172
 	.  error
@@ -1764,79 +1743,106 @@ state 163
 
 
 state 164
-	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER RP .  (92)
+	read_from_sensor : READ_FROM_SENSOR LP IDENTIFIER COMMA IDENTIFIER RP .  (98)
 
-	.  reduce 92
+	.  reduce 98
 
 
 state 165
-	func_define : FUNC SPACE IDENTIFIER LP parameters RP . LB func_body RB  (25)
+	func_define : FUNC SPACE IDENTIFIER LP parameters RP . LB func_body RB  (31)
 
 	LB  shift 174
 	.  error
 
 
 state 166
-	parameters : parameter parameters .  (27)
+	parameters : parameter parameters .  (33)
 
-	.  reduce 27
+	.  reduce 33
 
 
 state 167
-	parameter : var_type SPACE . IDENTIFIER  (28)
+	parameter : var_type SPACE . IDENTIFIER  (34)
 
 	IDENTIFIER  shift 175
 	.  error
 
 
 state 168
-	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url RP .  (95)
+	connect_stmt : IDENTIFIER DOT CONNECT_FUNC LP url RP .  (101)
 
-	.  reduce 95
+	.  reduce 101
 
 
 state 169
-	while_stmt : WHILE LP logic_expr RP LB stmts RB .  (65)
+	while_stmt : WHILE LP logic_expr RP LB stmts RB .  (71)
 
-	.  reduce 65
+	.  reduce 71
 
 
 state 170
-	unmatched_stmt : IF LP logic_expr RP LB stmts RB .  (6)
+	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB . trial  (11)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt RB . ELSE LB matched_stmt RB  (14)
+	trial : .  (13)
 
-	.  reduce 6
+	ELSE  shift 176
+	INT  reduce 13
+	FLOAT  reduce 13
+	WHILE  reduce 13
+	IF  reduce 13
+	BREAK  reduce 13
+	CONTINUE  reduce 13
+	FOR  reduce 13
+	RB  reduce 13
+	LP  reduce 13
+	END_STMT  reduce 13
+	COMMENT  reduce 13
+	INPUT  reduce 13
+	PRINT  reduce 13
+	READ_FROM_SENSOR  reduce 13
+	TIME_FROM_TIMER  reduce 13
+	FUNC  reduce 13
+	INT_TYPE  reduce 13
+	FLOAT_TYPE  reduce 13
+	STRING_TYPE  reduce 13
+	CHAR_TYPE  reduce 13
+	BOOL_TYPE  reduce 13
+	STATUS_TYPE  reduce 13
+	PROTOCOL_TYPE  reduce 13
+	PROG_END  reduce 13
+	IDENTIFIER  reduce 13
+
+	trial  goto 177
 
 
 state 171
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB . ELSE LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP LB matched_stmt RB . ELSE LB matched_stmt RB  (8)
+	unmatched_stmt : IF LP logic_expr RP LB unmatched_stmt RB .  (10)
 
-	ELSE  shift 176
-	.  error
+	.  reduce 10
 
 
 state 172
-	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (53)
-	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (54)
-	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (60)
-	str_assign : IDENTIFIER . ASSIGN_OP STRING  (61)
-	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (62)
-	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (63)
-	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (64)
+	assign_stmt : IDENTIFIER . ASSIGN_OP IDENTIFIER  (59)
+	assign_stmt : IDENTIFIER . ASSIGN_OP num_value  (60)
+	char_assign : IDENTIFIER . ASSIGN_OP CHAR  (66)
+	str_assign : IDENTIFIER . ASSIGN_OP STRING  (67)
+	bool_assign : IDENTIFIER . ASSIGN_OP logic_expr_wout_id  (68)
+	status_assign : IDENTIFIER . ASSIGN_OP STATUS  (69)
+	protocol_assign : IDENTIFIER . ASSIGN_OP PROTOCOL  (70)
 
 	ASSIGN_OP  shift 62
 	.  error
 
 
 state 173
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt . RP LB stmts RB  (66)
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt . RP LB stmts RB  (72)
 
-	RP  shift 177
+	RP  shift 178
 	.  error
 
 
 state 174
-	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB . func_body RB  (25)
+	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB . func_body RB  (31)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -1844,7 +1850,7 @@ state 174
 	IF  shift 6
 	BREAK  shift 7
 	CONTINUE  shift 8
-	RETURN  shift 178
+	RETURN  shift 179
 	FOR  shift 9
 	LP  shift 10
 	END_STMT  shift 11
@@ -1864,7 +1870,7 @@ state 174
 	IDENTIFIER  shift 25
 	.  error
 
-	stmts  goto 179
+	stmts  goto 180
 	stmt  goto 27
 	matched_stmt  goto 28
 	unmatched_stmt  goto 29
@@ -1880,7 +1886,7 @@ state 174
 	arithmetic_op  goto 39
 	while_stmt  goto 40
 	for_stmt  goto 41
-	func_body  goto 180
+	func_body  goto 181
 	var_type  goto 42
 	numeric_value  goto 43
 	num_value  goto 44
@@ -1892,101 +1898,55 @@ state 174
 
 
 state 175
-	parameter : var_type SPACE IDENTIFIER .  (28)
+	parameter : var_type SPACE IDENTIFIER .  (34)
 
-	.  reduce 28
+	.  reduce 34
 
 
 state 176
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE . LB unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE . LB matched_stmt RB  (8)
-
-	LB  shift 181
-	.  error
-
-
-state 177
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP . LB stmts RB  (66)
+	trial : ELSE . LB unmatched_stmt RB  (12)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE . LB matched_stmt RB  (14)
 
 	LB  shift 182
 	.  error
 
 
-state 178
-	func_body : RETURN . END_STMT  (30)
+state 177
+	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB trial .  (11)
 
-	END_STMT  shift 183
+	.  reduce 11
+
+
+state 178
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP . LB stmts RB  (72)
+
+	LB  shift 183
 	.  error
 
 
 state 179
-	func_body : stmts .  (31)
+	func_body : RETURN . END_STMT  (36)
 
-	.  reduce 31
+	END_STMT  shift 184
+	.  error
 
 
 state 180
-	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body . RB  (25)
+	func_body : stmts .  (37)
 
-	RB  shift 184
-	.  error
+	.  reduce 37
 
 
 state 181
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB . unmatched_stmt RB  (7)
-	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB . matched_stmt RB  (8)
+	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body . RB  (31)
 
-	INT  shift 3
-	FLOAT  shift 4
-	WHILE  shift 5
-	IF  shift 6
-	BREAK  shift 7
-	CONTINUE  shift 8
-	FOR  shift 9
-	LP  shift 10
-	END_STMT  shift 11
-	COMMENT  shift 12
-	INPUT  shift 13
-	PRINT  shift 14
-	READ_FROM_SENSOR  shift 15
-	TIME_FROM_TIMER  shift 16
-	FUNC  shift 17
-	INT_TYPE  shift 18
-	FLOAT_TYPE  shift 19
-	STRING_TYPE  shift 20
-	CHAR_TYPE  shift 21
-	BOOL_TYPE  shift 22
-	STATUS_TYPE  shift 23
-	PROTOCOL_TYPE  shift 24
-	IDENTIFIER  shift 25
+	RB  shift 185
 	.  error
-
-	matched_stmt  goto 185
-	unmatched_stmt  goto 186
-	assign_stmt  goto 30
-	input_stmt  goto 31
-	output_stmt  goto 32
-	func_define  goto 33
-	func_call  goto 34
-	read_from_sensor  goto 35
-	time_from_timer  goto 36
-	connect_stmt  goto 37
-	declare_stmt  goto 38
-	arithmetic_op  goto 39
-	while_stmt  goto 40
-	for_stmt  goto 41
-	var_type  goto 42
-	numeric_value  goto 43
-	num_value  goto 44
-	str_assign  goto 45
-	char_assign  goto 46
-	bool_assign  goto 47
-	status_assign  goto 48
-	protocol_assign  goto 49
 
 
 state 182
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB . stmts RB  (66)
+	trial : ELSE LB . unmatched_stmt RB  (12)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB . matched_stmt RB  (14)
 
 	INT  shift 3
 	FLOAT  shift 4
@@ -2013,10 +1973,8 @@ state 182
 	IDENTIFIER  shift 25
 	.  error
 
-	stmts  goto 187
-	stmt  goto 27
-	matched_stmt  goto 28
-	unmatched_stmt  goto 29
+	matched_stmt  goto 186
+	unmatched_stmt  goto 187
 	assign_stmt  goto 30
 	input_stmt  goto 31
 	output_stmt  goto 32
@@ -2040,73 +1998,130 @@ state 182
 
 
 state 183
-	func_body : RETURN END_STMT .  (30)
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB . stmts RB  (72)
 
-	.  reduce 30
+	INT  shift 3
+	FLOAT  shift 4
+	WHILE  shift 5
+	IF  shift 6
+	BREAK  shift 7
+	CONTINUE  shift 8
+	FOR  shift 9
+	LP  shift 10
+	END_STMT  shift 11
+	COMMENT  shift 12
+	INPUT  shift 13
+	PRINT  shift 14
+	READ_FROM_SENSOR  shift 15
+	TIME_FROM_TIMER  shift 16
+	FUNC  shift 17
+	INT_TYPE  shift 18
+	FLOAT_TYPE  shift 19
+	STRING_TYPE  shift 20
+	CHAR_TYPE  shift 21
+	BOOL_TYPE  shift 22
+	STATUS_TYPE  shift 23
+	PROTOCOL_TYPE  shift 24
+	IDENTIFIER  shift 25
+	.  error
+
+	stmts  goto 188
+	stmt  goto 27
+	matched_stmt  goto 28
+	unmatched_stmt  goto 29
+	assign_stmt  goto 30
+	input_stmt  goto 31
+	output_stmt  goto 32
+	func_define  goto 33
+	func_call  goto 34
+	read_from_sensor  goto 35
+	time_from_timer  goto 36
+	connect_stmt  goto 37
+	declare_stmt  goto 38
+	arithmetic_op  goto 39
+	while_stmt  goto 40
+	for_stmt  goto 41
+	var_type  goto 42
+	numeric_value  goto 43
+	num_value  goto 44
+	str_assign  goto 45
+	char_assign  goto 46
+	bool_assign  goto 47
+	status_assign  goto 48
+	protocol_assign  goto 49
 
 
 state 184
-	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB .  (25)
+	func_body : RETURN END_STMT .  (36)
 
-	.  reduce 25
+	.  reduce 36
 
 
 state 185
-	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt . RB  (8)
+	func_define : FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB .  (31)
 
-	RB  shift 188
-	.  error
+	.  reduce 31
 
 
 state 186
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt . RB  (7)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt . RB  (14)
 
 	RB  shift 189
 	.  error
 
 
 state 187
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts . RB  (66)
+	trial : ELSE LB unmatched_stmt . RB  (12)
 
 	RB  shift 190
 	.  error
 
 
 state 188
-	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB .  (8)
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts . RB  (72)
 
-	.  reduce 8
+	RB  shift 191
+	.  error
 
 
 state 189
-	unmatched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB .  (7)
+	matched_stmt : IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB .  (14)
 
-	.  reduce 7
+	.  reduce 14
 
 
 state 190
-	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB .  (66)
+	trial : ELSE LB unmatched_stmt RB .  (12)
 
-	.  reduce 66
+	.  reduce 12
+
+
+state 191
+	for_stmt : FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB .  (72)
+
+	.  reduce 72
 
 
 Rules never reduced:
-	input_from_connection : IDENTIFIER DOT INPUT_FROM_CONNECTION LP IDENTIFIER RP  (89)
-	output_to_connection : IDENTIFIER DOT OUTPUT_TO_CONNECTION LP IDENTIFIER RP  (91)
-	connect_obj_creation : CONNECTION_CLASS SPACE IDENTIFIER ASSIGN_OP NEW_INST SPACE CONNECTION_CONSTRUCTOR  (94)
-	get_connect_status : IDENTIFIER DOT GET_STATUS_FUNC LP IDENTIFIER RP  (97)
-	get_connect_protocol : IDENTIFIER DOT GET_PROTOCOL_FUNC LP IDENTIFIER RP  (98)
-	get_connect_URL : IDENTIFIER DOT GET_URL_FUNC LP IDENTIFIER RP  (99)
-	turn_switch_on : TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP  (100)
-	turn_switch_off : TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP  (101)
-	toggle_switch : TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP  (102)
-	get_switch_state : GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP  (103)
+	matched_stmts : matched_stmt  (6)
+	matched_stmts : matched_stmt matched_stmts  (7)
+	unmatched_stmts : unmatched_stmt  (8)
+	unmatched_stmts : unmatched_stmt unmatched_stmts  (9)
+	input_from_connection : IDENTIFIER DOT INPUT_FROM_CONNECTION LP IDENTIFIER RP  (95)
+	output_to_connection : IDENTIFIER DOT OUTPUT_TO_CONNECTION LP IDENTIFIER RP  (97)
+	connect_obj_creation : CONNECTION_CLASS SPACE IDENTIFIER ASSIGN_OP NEW_INST SPACE CONNECTION_CONSTRUCTOR  (100)
+	get_connect_status : IDENTIFIER DOT GET_STATUS_FUNC LP IDENTIFIER RP  (103)
+	get_connect_protocol : IDENTIFIER DOT GET_PROTOCOL_FUNC LP IDENTIFIER RP  (104)
+	get_connect_URL : IDENTIFIER DOT GET_URL_FUNC LP IDENTIFIER RP  (105)
+	turn_switch_on : TURN_SWITCH_ON_FUNC LP SWITCH_NAME RP  (106)
+	turn_switch_off : TURN_SWITCH_OFF_FUNC LP SWITCH_NAME RP  (107)
+	toggle_switch : TOGGLE_SWITCH_FUNC LP SWITCH_NAME RP  (108)
+	get_switch_state : GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP  (109)
 
 
 State 121 contains 1 shift/reduce conflict.
 State 141 contains 1 shift/reduce conflict.
-State 162 contains 1 shift/reduce conflict.
 
 
-69 terminals, 48 nonterminals
-104 grammar rules, 191 states
+69 terminals, 51 nonterminals
+110 grammar rules, 192 states
