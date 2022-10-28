@@ -64,6 +64,7 @@
 %token PROG_END
 %token IDENTIFIER
 %token SPACE
+%token OPT_SPACE
 %token EMPTY
 
 %start program
@@ -81,15 +82,15 @@ matched_stmts: matched_stmt | matched_stmt matched_stmts
 
 unmatched_stmts: unmatched_stmt | unmatched_stmt unmatched_stmts
 
-unmatched_stmt: IF LP logic_expr RP LB unmatched_stmts RB
-            | IF LP logic_expr RP LB matched_stmts RB trial
+unmatched_stmt: IF SPACE LP logic_expr RP LB unmatched_stmts RB
+            | IF SPACE LP logic_expr RP LB matched_stmts RB trial
 
 
 
             
-trial: ELSE LB unmatched_stmts RB | ;
+trial: ELSE SPACE LB unmatched_stmts RB | ;
 
-matched_stmt: IF LP logic_expr RP LB matched_stmts RB ELSE LB matched_stmts RB 
+matched_stmt: IF SPACE LP logic_expr RP LB matched_stmts RB ELSE SPACE LB matched_stmts RB 
             | assign_stmt END_STMT 
             | input_stmt END_STMT 
             | output_stmt END_STMT 
@@ -116,15 +117,14 @@ matched_stmt: IF LP logic_expr RP LB matched_stmts RB ELSE LB matched_stmts RB
             | turn_switch_on END_STMT
             | turn_switch_off END_STMT
             | toggle_switch END_STMT
-            |get_switch_state END_STMT
+            | get_switch_state END_STMT
 
 // func definition and func call 
 func_define: FUNC SPACE IDENTIFIER LP parameters RP LB stmts RB
 
-parameters: parameter | parameter parameters
+parameters: parameter | parameter COMMA parameters
 
 parameter: var_type SPACE IDENTIFIER | EMPTY
-
 
 func_call: IDENTIFIER LP variables RP 
 
@@ -181,7 +181,6 @@ logic_expr_wout_id: logic_operation
 
 logic_expr: logic_operation 
             | comparison_operation
-            | NOT_OP logic_expr
             | IDENTIFIER
 
 logic_operation: logic_value
@@ -247,7 +246,13 @@ get_switch_state: GET_SWITCH_STATE_FUNC LP SWITCH_NAME COMMA IDENTIFIER RP
 
 %%
 #include "lex.yy.c"
-void yyerror(char *s) { printf("%s", s); } 
+int lineno = 1;
+void yyerror(char *s) { printf("%s on line %d!\n", s,lineno); } 
 
 int main() {
-return yyparse(); }
+        yyparse(); 
+        if(yynerrs < 1){
+		printf("Input program is valid\n");
+	}
+        return 0;
+}

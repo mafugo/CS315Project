@@ -26,6 +26,7 @@ assign_op "="
 hashtag "#"
 aspace " "
 space {aspace}+
+opt_space {aspace}*
 
 empty "empty"
 
@@ -113,6 +114,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {continue} { return (CONTINUE); }
 {return} { return (RETURN); }
 {space} {return (SPACE);}
+{opt_space} {return(OPT_SPACE);}
 {for} { return (FOR); }
 {LB} { return (LB); }
 {RB} { return (RB); }
@@ -134,7 +136,7 @@ switch_name "switch_0"|"switch_1"|"switch_2"|"switch_3"|"switch_4"|"switch_5"|"s
 {mult_op} { return (MULT_OP); }
 {plus_op} { return (PLUS_OP); }
 {minus_op} { return (MINUS_OP); }
-{new_line} { /*return (NEW_LINE);*/ }
+{new_line} { extern int lineno; lineno++; }
 {dot} { return (DOT); }
 {empty} {return(EMPTY);}
 {comment} { return (COMMENT); }

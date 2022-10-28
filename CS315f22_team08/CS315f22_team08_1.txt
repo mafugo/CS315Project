@@ -1,0 +1,98 @@
+
+start
+
+Connection connection1=new Connection();
+connection1.connect("https://www.cs.bilkent.edu.tr/~guvenir/courses/CS315/Pr2.htm");
+
+string input1;
+connection1.input_from_connection(input1);
+
+
+print(input1);
+connection1.output_to_connection(newFolder);
+
+status status1;
+connection1.getStatus(status1);
+string positiveResult="connected successfully";
+string negativeResult="connected successfully";
+if (3<5){print(ahmet);}
+
+protocol protocol1;
+connection1.getProtocol(protocol1);
+string positive="the protocol is http";
+string negative="the protocol is not http";
+
+if (protocol1==a){
+print(positive);
+}else {
+print(negative);}
+
+string url;
+connection1.getURL(url);
+
+#Arithmetic Operations/assignments/declerations
+int result=(((12+2)*5)/7);
+print(result);
+int number;
+number=9;
+int num=1;
+int numneg=-1;
+float flt1=3.8;
+float fltneg=-9.8;
+
+#Declerations
+string str1="arda";
+string str3="sel";
+char chr1='a';
+
+#logic declerations
+bool bool1=true;
+bool bool2=on;
+bool bool3=bool1;
+bool bool4=(on&false);
+
+3;
+
+#for check
+int b=10;
+for(int i=0;i<12;i=58){
+if (i==b){
+continue;
+}
+print(i);
+}
+
+
+#While check
+while(b>=0){
+b=11;
+if (b==10){
+break;
+}
+}
+print(b);
+
+#Function definition that checks the given integer if it is odd or even
+func oddEven(int abu,string result){
+while(abu<=b){
+if (abu<5){
+result="it is less than 5";
+}else {
+result="it is greater than 5";
+}
+abu=(16/2);
+}
+return;
+}
+
+#Function call
+string result;
+int a=5;
+OddEven(a,result);
+print(result);
+
+#take input
+int in;
+input(in);
+;
+end
