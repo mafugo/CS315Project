@@ -147,7 +147,7 @@ int_assign: IDENTIFIER ASSIGN_OP num_value
 float_assign:IDENTIFIER ASSIGN_OP num_value
 char_assign: IDENTIFIER ASSIGN_OP CHAR
 str_assign: IDENTIFIER ASSIGN_OP STRING
-bool_assign: IDENTIFIER ASSIGN_OP logic_expr
+bool_assign: IDENTIFIER ASSIGN_OP logic_expr_wout_id
 status_assign: IDENTIFIER ASSIGN_OP STATUS
 protocol_assign: IDENTIFIER ASSIGN_OP PROTOCOL
 
@@ -160,6 +160,10 @@ while_stmt: WHILE LP logic_expr RP LB stmts RB
 for_stmt: FOR LP declare_stmt END_STMT logic_expr END_STMT assign_stmt RP LB stmts RB
 
 // 10. Logic Expressions
+logic_expr_wout_id: logic_operation 
+                    | comparison_operation
+                    | NOT_OP logic_expr
+
 logic_expr: logic_operation 
             | comparison_operation
             | NOT_OP logic_expr
