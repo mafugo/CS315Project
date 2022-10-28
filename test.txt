@@ -11,7 +11,6 @@ read_from_sensor(light_sensor,light);
 time_from_timer(timestamp);
 
 string URL1;
-print("URL to connect to: ");
 input(URL1);
 Connection connection1 = new Connection();
 connection1.connect(URL1);
@@ -19,30 +18,37 @@ connection1.connect(URL1);
 string input1;
 connection1.input_from_connection(input1);
 
-print("input from connection"); print(input1);
+
+print(input1);
 connection1.output_to_connection("mkdir newFolder");
 
 status status1;
 connection1.getStatus(status1);
+string positiveResult="connected successfully";
+string negativeResult="connected successfully";
 if(status1 == connected){
-    print("connected successfully");
+    print(positiveResult);
 }else{
-    print("not connected");
+    print(negativeResult);
 }
 
 protocol protocol1;
 connection1.getProtocol(protocol1);
+string positive="the protocol is http";
+string negative="the protocol is not http";
+
 if(protocol1 == http){
-    print("the protocol is http");
+    print(positive);
 }else{
-    print("the protocol is not http");
+    print(negative);
 }
 
 string url;
 connection1.getURL(url);
 
 #Arithmetic Operations/assignments/declerations
-print((12 + 2 * 4) / (7));
+int result=(12 + 2 * 4) / (7)
+print(result);
 int number;
 number=9;
 int num=1;
@@ -73,7 +79,7 @@ for(int i=0; i<12, i=i + 1){
 
 #While check
 while(b!=0){
-    b=b - 1;
+    b=b-1;
     if(b==10){
         break;
     }
@@ -88,9 +94,10 @@ func OddEven(int integer, string result){
         }else{
             result = "it is an even number";
         }
-        integer=integer / 2;
+        integer=integer/2;
     return;
 }
+
 #Function call
 string result;
 int a=5;
@@ -99,4 +106,13 @@ print(result);
 
 #take input
 int in = input()
+
+
+
+
+
+
+
+
 end;
+
