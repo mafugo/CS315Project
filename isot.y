@@ -142,7 +142,7 @@ numeric_value:  num_value |
                 numeric_value DIV_OP num_value
 
 
-num_value:  INT 
+num_value: INT 
         | FLOAT
         | LP arithmetic_op RP
 
@@ -194,7 +194,10 @@ bool_factor: BOOL
             | LP comparison_operation RP
             | LP logic_operation RP
 
-comparison_operation: num_value comparision_op num_value
+comparison_operation:num_value comparision_op num_value 
+                |IDENTIFIER comparision_op num_value 
+                |IDENTIFIER comparision_op IDENTIFIER 
+                |num_value comparision_op IDENTIFIER
 
 comparision_op: LESS_OP
                 | GREATER_OP
