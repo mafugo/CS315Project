@@ -72,26 +72,30 @@ program: PROG_START stmts PROG_END
 
 stmts: stmt | stmt stmts
 
-stmt: if_stmt | non_if_stmt
+stmt: matched_stmt | unmatched_stmt
 
-if_stmt: matched_stmt | unmatched_stmt
+unmatched_stmt:
+            IF LP logic_expr RP LB stmts RB
+            | IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB
 
-non_if_stmt: 
-            assign_stmt END_STMT | 
-            input_stmt END_STMT |
-            output_stmt END_STMT |
-            func_define |
-            func_call END_STMT |
-            read_from_sensor END_STMT |
-            time_from_timer END_STMT |
-            connect_stmt END_STMT |
-            declare_stmt END_STMT |
-            BREAK END_STMT |
-            CONTINUE END_STMT |
-            RETURN END_STMT | 
-            arithmetic_op END_STMT | 
-            COMMENT | END_STMT | 
-            while_stmt | for_stmt 
+matched_stmt: IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB 
+            | assign_stmt END_STMT 
+            | input_stmt END_STMT 
+            | output_stmt END_STMT 
+            | func_define 
+            | func_call END_STMT 
+            | read_from_sensor END_STMT 
+            | time_from_timer END_STMT 
+            | connect_stmt END_STMT 
+            | declare_stmt END_STMT 
+            | BREAK END_STMT 
+            | CONTINUE END_STMT 
+            | RETURN END_STMT 
+            | arithmetic_op END_STMT 
+            | COMMENT 
+            | END_STMT 
+            | while_stmt 
+            | for_stmt
 
 // func definition and func call 
 func_define: FUNC SPACE IDENTIFIER LP parameters RP LB func_body RB
@@ -149,15 +153,6 @@ num_value: INT | FLOAT | arithmetic_op | CHAR
 ///////////////
 // Omar's part
 ///////////////
-
-// 8. Conditional Statements: If-Else
-matched_stmt:
-            IF LP logic_expr RP LB matched_stmt RB ELSE LB matched_stmt RB
-            | non_if_stmt
-
-unmatched_stmt:
-            IF LP logic_expr RP LB stmts RB
-            | IF LP logic_expr RP LB matched_stmt RB ELSE LB unmatched_stmt RB
 
 // 9. Loops: While and For
 while_stmt: WHILE LP logic_expr RP LB stmts RB
