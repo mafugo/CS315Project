@@ -105,6 +105,16 @@ matched_stmt: IF LP logic_expr RP LB matched_stmts RB ELSE LB matched_stmts RB
             | END_STMT 
             | while_stmt 
             | for_stmt
+            | input_from_connection END_STMT
+            | output_to_connection END_STMT
+            | connect_obj_creation END_STMT
+            | get_connect_status END_STMT
+            | get_connect_protocol END_STMT
+            | get_connect_URL END_STMT
+            | turn_switch_on END_STMT
+            | turn_switch_off END_STMT
+            | toggle_switch END_STMT
+            |get_switch_state END_STMT
 
 // func definition and func call 
 func_define: FUNC SPACE IDENTIFIER LP parameters RP LB stmts RB
